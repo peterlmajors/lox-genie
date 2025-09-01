@@ -1,6 +1,10 @@
 *.txt
 *.csv
+*.json
 *.parquet
+*.ipynb
+*.md
+
 
 __pycache__/
 *.pyc
