@@ -8,13 +8,7 @@ router = APIRouter()
 
 
 @router.get("/rankings")
-async def get_rankings(
-    dynasty: bool = False,
-    superflex: bool = True,
-    teams: int = 10,
-    ppr: float = 1,
-    top_n: int = 10,
-):
+async def get_rankings(dynasty: bool = False,superflex: bool = True, teams: int = 10, ppr: float = 1,top_n: int = 10):
     """
     Get rankings from Fantasy Calc API
     Args:

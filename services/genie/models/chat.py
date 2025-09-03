@@ -1,0 +1,25 @@
+from pydantic import BaseModel, Field
+from typing import List, Optional, Dict, Any
+
+
+class ChatMessage(BaseModel):
+    """Individual chat message model."""
+
+    role: str = Field(..., description="Role of the message sender (user/assistant)")
+    content: str = Field(..., description="Content of the message")
+    timestamp: Optional[str] = Field(None, description="Timestamp of the message")
+
+class ChatRequest(BaseModel):
+    """Chat request model."""
+
+    messages: List[ChatMessage] = Field(..., description="List of chat messages")
+    stream: bool = Field(False, description="Whether to stream the response")
+    temperature: float = Field(0.7, ge=0.0, le=2.0, description="Creativity level (0-2)")
+    max_tokens: Optional[int] = Field(None, ge=1, le=8192, description="Maximum tokens in response")
+
+class ChatResponse(BaseModel):
+    """Chat response model."""
+
+    response: str = Field(..., description="AI response content")
+    usage: Optional[Dict[str, Any]] = Field(None, description="Token usage information")
+    model: str = Field(..., description="Model used for generation")

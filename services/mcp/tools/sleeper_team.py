@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from fastapi import APIRouter
+from services.genie.crud.aws_s3 import get_s3
 from services.genie.api.services.sleeper.api import get_league_rosters
 from services.genie.api.services.sleeper.utils import (
     match_id_metadata,
@@ -9,10 +10,12 @@ from services.genie.api.services.sleeper.utils import (
 )
 
 # Get the project root directory (two levels up from this file)
-project_root = Path(__file__).parent.parent.parent.parent
-fantasy_players_path = project_root / "data" / "fantasy_players.json"
-with fantasy_players_path.open("r", encoding="utf-8") as f:
-    sleeper_players: dict = json.load(f)
+# project_root = Path(__file__).parent.parent.parent.parent
+# fantasy_players_path = project_root / "data" / "fantasy_players.json"
+# with fantasy_players_path.open("r", encoding="utf-8") as f:
+#     sleeper_players: dict = json.load(f)
+
+sleeper_players = get_s3("lox-api", "fantasy_players.json")
 
 router = APIRouter()
 

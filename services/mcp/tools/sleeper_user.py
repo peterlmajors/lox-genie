@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from collections import Counter
-from services.genie.api.routes.sleeper_team import get_record
+from services.mcp.tools.sleeper_team import get_record
 from services.genie.api.services.sleeper.api import get_nfl_leagues_user
 from services.genie.core.config import settings
 
@@ -8,7 +8,9 @@ router = APIRouter()
 
 
 @router.get("/users/{user_id}/leagues")
-def get_nfl_leagues_user_metadata(user_id: str, season: int = settings.NFL_YEAR) -> list:
+def get_nfl_leagues_user_metadata(
+    user_id: str, season: int = settings.NFL_YEAR
+) -> list:
     """
     Get all NFL leagues for a user with metadata.
     """

@@ -1,33 +1,23 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
 import logging
 
-from services.genie.api.routes.fantasycalc import router as fantasy_calc_router
-from services.genie.api.routes.sleeper_user import router as sleeper_user_router
-from services.genie.api.routes.sleeper_team import router as sleeper_team_router
-from services.genie.api.routes.sleeper_league import router as sleeper_league_router
-from services.genie.api.routes.sleeper_draft import router as sleeper_draft_router
+from services.genie.api.routes.chat import router as chat_router
 from services.genie.core.config import settings
 
 # Configure logging
 logging.basicConfig(level=getattr(logging, settings.LOG_LEVEL))
 logger = logging.getLogger(__name__)
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application startup and shutdown events."""
-    # Startup
     logger.info(f"Starting {settings.NAME} v{settings.VERSION}")
     logger.info(f"Environment: {settings.ENV}")
-
     yield
-
-    # Shutdown
     logger.info(f"Shutting down {settings.NAME}")
-
 
 # Initialize FastAPI app with lifespan
 app = FastAPI(
@@ -47,13 +37,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     """Global exception handler for unexpected errors."""
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
+# Include API routes
+app.include_router(chat_router, prefix="/genie", tags=["Chat"])
 
 @app.get("/health")
 async def health_check():
@@ -70,11 +61,3 @@ async def root():
         "environment": settings.ENV,
         "docs": "/docs",
     }
-
-
-# Include API routes
-app.include_router(fantasy_calc_router, prefix="/fantasycalc", tags=["Fantasy Calc"])
-app.include_router(sleeper_user_router, prefix="/sleeper_user", tags=["Sleeper User"])
-app.include_router(sleeper_team_router, prefix="/sleeper_team", tags=["Sleeper Team"])
-app.include_router(sleeper_league_router, prefix="/sleeper_league", tags=["Sleeper League"])
-app.include_router(sleeper_draft_router, prefix="/sleeper_draft", tags=["Sleeper Draft"])
