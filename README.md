@@ -1,6 +1,47 @@
+<div align="center">
+  <img src="static/lox-logo512.png" alt="Lox Logo" width="128" height="128">
+</div>
+
 # Lox API
 
-The Lox API provides access to the Lox Genie, a fantasy football research agent developd with Langgraph, and the Lox MCP server.
+The Lox API provides access to the **Lox Genie**, a fantasy football consultant built with the Gemini family of LLMs and LangGraph, and the **Lox MCP Server**, a Model Context Protocol server offering specialized fantasy football data tools.
+
+## 🏈 What is Lox Genie?
+
+Lox Genie is a traditioanal deep research agent which uses LangGraph and a multi-node architecture that:
+
+- **Assesses relevance** of user queries to fantasy football topics
+- **Engages in human-in-the-loop** clarification when queries are unclear
+- **Plans research strategies** by breaking down complex questions into actionable subtasks
+- **Executes research** using specialized MCP tools for data gathering
+- **Provides expert analysis** with concise, well-supported recommendations
+
+The agent is designed to be maximally truth-seeking, providing resolute and non-ambiguous answers by blending its knowledge base with ground-up analysis.
+
+## 🛠️ MCP Server Tools
+
+The Lox MCP Server provides a comprehensive suite of fantasy football data tools:
+
+### Sleeper Platform Integration
+
+- **Draft Analysis**: Complete draft pick metadata, auction prices, and rookie/redraft classifications
+- **League Management**: User rosters, team records, waiver budgets, and league standings
+- **Player Data**: Comprehensive player information with metadata and statistics
+- **Team Analysis**: Detailed roster breakdowns with starters, bench players, and taxi squads
+
+### External Data Sources
+
+- **Fantasy Calc Rankings**: Dynasty and redraft player rankings with customizable scoring settings
+- **Utility Tools**: Mathematical operations and data processing capabilities
+
+## 🏗️ Architecture
+
+The platform is built with modern Python technologies and follows microservices architecture:
+
+- **FastAPI Service** (Port 8000): RESTful API with streaming chat capabilities
+- **MCP Server** (Port 8001): Model Context Protocol server for tool integration
+- **LangGraph Agent**: Multi-node workflow orchestration for intelligent research
+- **Docker Support**: Containerized deployment with docker-compose
 
 ## Project Structure
 
@@ -8,27 +49,27 @@ lox-api/
 ├── services/  
 │ ├── genie/  
 │ │ ├── api/  
-│ │ │ ├── app.py # FastAPI app instance and router includes
-│ │ │ └── routers/ # API route modules (e.g., user_routes.py)
-│ │ ├── agent/ # Agent logic, nodes, prompts, config, schemas
-│ │ │ ├── nodes/ # LangGraph nodes (e.g., relevance.py)
-│ │ │ ├── prompts/ # Prompt templates
-│ │ │ ├── config.py # Agent configuration
-│ │ │ ├── schemas.py # Pydantic models for agent state
-│ │ │ └── utils.py # Agent utilities
-│ │ ├── core/ # Core FastAPI config and settings
-│ │ ├── crud/ # Database CRUD operations
-│ │ ├── db/ # Database connection/configuration
-│ │ ├── models/ # SQLAlchemy models
-│ │ ├── schemas/ # Pydantic schemas for API
-│ │ ├── utils/ # Service-specific utilities
-│ │ └── main.py # Genie service entry point
+│ │ │ ├── app.py
+│ │ │ └── routers/
+│ │ ├── agent/
+│ │ │ ├── nodes/
+│ │ │ ├── prompts/
+│ │ │ ├── config.py
+│ │ │ ├── schemas.py
+│ │ │ └── utils.py
+│ │ ├── core/
+│ │ ├── crud/
+│ │ ├── db/
+│ │ ├── models/
+│ │ ├── schemas/
+│ │ ├── utils/
+│ │ └── main.py
 │ └── mcp/  
-│ ├── main.py # MCP service entry point
-│ ├── tools/ # MCP tools and utilities
-│ ├── prompts/ # MCP prompt templates
-│ ├── resources/ # MCP resources
-│ └── test/ # MCP tests
+│ ├── main.py
+│ ├── tools/
+│ ├── prompts/
+│ ├── resources/
+│ └── test/
 ├── docker/  
 │ ├── Dockerfile.api  
 │ ├── Dockerfile.mcp  
@@ -101,20 +142,3 @@ pip install -r requirements/requirements-mcp.txt
 # Run services
 python services/genie/main.py
 python services/mcp/main.py
-
-## Services
-
-- **FastAPI Service** (Port 8000): Main API for fantasy football data
-- **MCP Server** (Port 8001): Model Context Protocol server
-
-## Documentation
-
-- [Docker Setup](docker/README-Docker.md)
-- [Configuration](config/README.md)
-- [Scripts](scripts/README.md)
-
-## Health Checks
-
-- FastAPI: http://localhost:8000/health
-- MCP Server: http://localhost:8001/health
-```

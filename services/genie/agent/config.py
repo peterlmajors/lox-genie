@@ -19,6 +19,13 @@ class Configuration(BaseModel):
             "description": "Language model used for agent relevance assessment."
         },
     )
+    
+    executor_model: str = Field(
+        default="gemini-2.5-flash-lite",
+        metadata={
+            "description": "Language model used for agent tool execution."
+        },
+    )
 
     @classmethod
     def from_runnable_config(cls, config: Optional[RunnableConfig] = None) -> "Configuration":
