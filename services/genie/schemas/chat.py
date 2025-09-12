@@ -1,10 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
-
+import uuid
 
 class ChatMessage(BaseModel):
     """Individual chat message model."""
-
+    message_id: str = Field(default=uuid.uuid4(), description="Unique ID for the message")
     role: str = Field(..., description="Role of the message sender (user/assistant)")
     content: str = Field(..., description="Content of the message")
     timestamp: Optional[str] = Field(None, description="Timestamp of the message")

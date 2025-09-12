@@ -5,8 +5,7 @@ from fastapi.responses import StreamingResponse
 
 from services.genie.core.config import settings
 from services.genie.models.chat import ChatRequest, ChatResponse
-from services.genie.api.services.llm.gemini import validate_gemini_config
-logger = logging.getLogger(__name__)
+from services.genie.agent.gemini import validate_gemini_config
 
 router = APIRouter()
 
@@ -22,7 +21,7 @@ async def lox_genie(request: ChatRequest, gemini_configured: None = Depends(vali
         ChatResponse: AI response with content and metadata
     """
     try:
-        return ChatResponse(response="Hello, how are you?", model=settings.GEMINI_MODEL)
+        return 'Hello, how are you?'
     except Exception as exc:
         logger.error(f"Error in chat_with_gemini: {exc}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to generate response: {str(exc)}")

@@ -1,51 +1,53 @@
 # Lox API
 
-A FastAPI service with MCP (Model Context Protocol) server for fantasy football data and calculations.
+The Lox API provides access to the Lox Genie, a fantasy football research agent developd with Langgraph, and the Lox MCP server.
 
 ## Project Structure
 
-```
 lox-api/
-├── services/              # Application services
-│   ├── genie/            # FastAPI service
-│   │   ├── api/          # API routes
-│   │   ├── core/         # Core functionality
-│   │   ├── crud/         # Database operations
-│   │   ├── db/           # Database configuration
-│   │   ├── models/       # Data models
-│   │   ├── schemas/      # Pydantic schemas
-│   │   ├── utils/        # Service-specific utilities
-│   │   └── main.py       # Entry point
-│   └── mcp/              # MCP service
-│       ├── main.py       # Entry point
-│       ├── tools/        # MCP tools
-│       ├── prompts/      # MCP prompts
-│       ├── resources/    # MCP resources
-│       └── test/         # Tests
-├── shared/               # Shared code between services
-│   ├── utils/            # Shared utilities
-│   ├── constants/        # Shared constants
-│   └── types/            # Shared type definitions
-├── docker/               # Docker configuration
-│   ├── Dockerfile.api    # API service Dockerfile
-│   ├── Dockerfile.mcp    # MCP service Dockerfile
-│   └── README.md         # Docker documentation
-├── requirements/         # Python dependencies
-│   ├── requirements-api.txt # API service requirements
-│   ├── requirements-mcp.txt # MCP service requirements
-│   └── README.md         # Requirements documentation
-├── config/               # Configuration files
-│   ├── config.py         # Main configuration
-│   └── README.md         # Configuration documentation
-├── scripts/              # Development scripts
-│   ├── run-dev.sh        # Unix/Linux/Mac dev script
-│   ├── run-dev.bat       # Windows dev script
-│   └── README.md         # Scripts documentation
-├── tests/                # Integration tests
-├── docs/                 # Documentation
-├── docker-compose.yml    # Docker Compose configuration
-└── README.md             # This file
-```
+├── services/  
+│ ├── genie/  
+│ │ ├── api/  
+│ │ │ ├── app.py # FastAPI app instance and router includes
+│ │ │ └── routers/ # API route modules (e.g., user_routes.py)
+│ │ ├── agent/ # Agent logic, nodes, prompts, config, schemas
+│ │ │ ├── nodes/ # LangGraph nodes (e.g., relevance.py)
+│ │ │ ├── prompts/ # Prompt templates
+│ │ │ ├── config.py # Agent configuration
+│ │ │ ├── schemas.py # Pydantic models for agent state
+│ │ │ └── utils.py # Agent utilities
+│ │ ├── core/ # Core FastAPI config and settings
+│ │ ├── crud/ # Database CRUD operations
+│ │ ├── db/ # Database connection/configuration
+│ │ ├── models/ # SQLAlchemy models
+│ │ ├── schemas/ # Pydantic schemas for API
+│ │ ├── utils/ # Service-specific utilities
+│ │ └── main.py # Genie service entry point
+│ └── mcp/  
+│ ├── main.py # MCP service entry point
+│ ├── tools/ # MCP tools and utilities
+│ ├── prompts/ # MCP prompt templates
+│ ├── resources/ # MCP resources
+│ └── test/ # MCP tests
+├── docker/  
+│ ├── Dockerfile.api  
+│ ├── Dockerfile.mcp  
+│ └── README.md  
+├── requirements/  
+│ ├── requirements-api.txt  
+│ ├── requirements-mcp.txt  
+│ └── README.md  
+├── config/  
+│ ├── config.py  
+│ └── README.md  
+├── scripts/  
+│ ├── run-dev.sh  
+│ ├── run-dev.bat  
+│ └── README.md  
+├── tests/  
+├── docs/  
+├── docker-compose.yml  
+└── README.md
 
 ## Quick Start
 
@@ -62,29 +64,37 @@ docker-compose up --build
 
 ### Local Development
 
-#### Using Scripts
+#### Using uv (Windows)
 
 ```bash
-# Unix/Linux/Mac
-./scripts/run-dev.sh
+# Install uv if you haven't already
+pip install uv
 
-# Windows
-scripts\run-dev.bat
+# Install dependencies
+uv sync
+
+# Run the FastAPI service
+uv run services/genie/main.py
+
+# In another terminal, run the MCP server
+uv run services/mcp/main.py
 ```
 
-#### Manual Start
+#### Using pip/venv
 
 ```bash
+# Create virtual environment
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Linux/Mac
+
 # Install dependencies
 pip install -r requirements/requirements-api.txt
 pip install -r requirements/requirements-mcp.txt
 
-# Start FastAPI service
-python -m services.genie.main
-
-# Start MCP server (in another terminal)
+# Run services
+python services/genie/main.py
 python services/mcp/main.py
-```
 
 ## Services
 
@@ -101,3 +111,4 @@ python services/mcp/main.py
 
 - FastAPI: http://localhost:8000/health
 - MCP Server: http://localhost:8001/health
+```
