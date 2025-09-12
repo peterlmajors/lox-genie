@@ -49,6 +49,12 @@ lox-api/
 ├── docker-compose.yml  
 └── README.md
 
+## Prerequisites
+
+- Python 3.11+
+- [uv](https://docs.astral.sh/uv/) (recommended) or pip
+- Docker (for containerized deployment)
+
 ## Quick Start
 
 ### Using Docker (Recommended)

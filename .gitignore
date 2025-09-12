@@ -3,7 +3,6 @@
 *.json
 *.parquet
 *.ipynb
-*.md
 
 __pycache__/
 *.pyc
@@ -16,4 +15,5 @@ __pycache__/
 *.pyzwz
 *.ipynb
 
+.cursorrules
 .env
