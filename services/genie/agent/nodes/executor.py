@@ -25,7 +25,6 @@ def executor(state: AgentState, config: RunnableConfig) -> AgentState:
     
     # Initialize the structured LLM instance
     structured_llm = llm.with_structured_output(ToolExecutorResponse)
-    llm = create_react_agent(llm, [multiply])
     
     # Execute the subtasks
     for plan in state.plan[-1].subtasks:

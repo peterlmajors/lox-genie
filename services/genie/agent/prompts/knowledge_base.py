@@ -27,9 +27,11 @@ prompt = PromptTemplate(
         </quarterback>
 
         <running_back>
+        - Running back evaluation is role-driven (snaps, routes, goal-line carries), skill-measured (evasion and vision), and context-driven (injuries, teammate competition, scheme fit)
+        - Metrics like ROE%, RYOE, YPRR help separate system-driven producers from those creating value independently.
+        - Dynasty managers should anchor evaluations in tiers to reflect both current production and future volatility.
         - Receiving drives early-round RB value: prioritize prior-year receiving PPG and pass-down usage for your RB1.
         - Context multiplies talent: target clear lead roles (low RB competition by ADP) on high-scoring offenses.
-        - Middle rounds win RB: focus on ambiguous backfields where one back can consolidate; fade older, non-pass-catching profiles at mid costs.
         - Do not chase last points scored last year in the middle rounds; use YPRR and target share indicators to find undervalued volume.
         - Late rounds = role + contingency: pass-catching chops and obvious paths to a takeover beat empty handcuffs; age is not a deal-breaker this late.
         - Injury luck swings prices: after healthy RB seasons, expect overpricing next year—shift capital to mid-round RB
@@ -50,6 +52,11 @@ prompt = PromptTemplate(
 
         <kicker>
         </kicker>
+        
+        <team_building_strategy>
+        - Zero-RB strategy: identify cheap RBs with contingent upside and monitor weekly shifts to capture value early.
+        - Middle-round RB strategy: focus on ambiguous backfields where one back can consolidate; fade older, non-pass-catching profiles at mid costs.
+        </team_building_strategy>
         
         <team_tendencies_and_situation>
         - Pace of Play projections are a relevant when understanding the number of opportunities a team’s offense will have each game to score fantasy points
