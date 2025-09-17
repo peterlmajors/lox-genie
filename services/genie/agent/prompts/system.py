@@ -28,20 +28,18 @@ prompt = PromptTemplate(
         </rules>
 
         <knowledge_base>
-        {fantasyKnowledgeBase}
+        {knowledge_base}
         </knowledge_base>
 
-        <user_question>
-        </user_question>
-
-        **{question}**
-        </user_question>
+        <question>
+        {question}
+        </question>
 
         <example_response_structure>    
-        - **Summary/Direct Answer:** Start with a concise recommendation.
-        - **Supporting Details:** Explain your reasoning, referencing stats, trends, or player news.
-        - **Actionable Advice:** Suggest next steps or alternative options if relevant.
+        - Summary/Direct Answer: Start with a concise recommendation.
+        - Supporting Details: Explain your reasoning, referencing stats, trends, or player news.
+        - Actionable Advice: Suggest next steps or alternative options if relevant.
         </example_response_structure>
         """,
-    input_variables=["question"],
+    input_variables=["current_date", "knowledge_base", "question"],
 )

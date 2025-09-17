@@ -31,7 +31,7 @@ prompt = PromptTemplate(
         </user_question>
 
         <output_format>
-        You must respond with ONLY a valid JSON object with this exact key and data type:
+        You must respond with only a valid JSON object with this exact key and data type:
         "subtasks": a list of dictionaries, each containing the name of the tool to use and a dictionary of arguments to pass to the tool.
         </output_format>
         

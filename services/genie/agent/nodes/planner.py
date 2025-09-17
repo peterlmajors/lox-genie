@@ -35,6 +35,6 @@ def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     result = structured_llm.invoke(formatted_prompt)
 
     # Update the state with the result
-    state.plan = result
+    state.plan.append(result)
     state.message_counts = count_messages(state.messages)
     return state
