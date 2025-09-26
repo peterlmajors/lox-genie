@@ -19,6 +19,7 @@
 - TBD: Respond to user referencing tool responses in combination with optimized query
 
 ## === Future State Implementations ===
+- Improve context gathered at relevance node, as knowledge cut off can be limiting
 - Quick answer conditional edge and node, as determined by the planner
 - MCP tools running and resources supplied with short and detailed versions
 - Up/downvote on responses to reduce context poison

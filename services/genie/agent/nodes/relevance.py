@@ -1,16 +1,22 @@
-import os
+
 from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
   
 from services.genie.agent.config import Configuration
 from services.genie.agent.schemas import AgentState, RelevanceResponse  
-from services.genie.agent.prompts.relevance import prompt
 from services.genie.agent.utils import get_current_date, get_tools, count_messages
-
+from services.genie.agent.prompts.relevance import prompt
 
 def relevance(state: AgentState, config: RunnableConfig) -> AgentState:
     """LangGraph node which assesses the relevance of the user's question to the topic"""
+    
+    # Initialize the relevance model and LLM instance
+    relevance_model = Configuration.from_runnable_config(config).relevance_agent_model
+    llm = ChatOllama(
+        model=relevance_model,
+        temperature=0
+    )
     
     # Format the prompt
     formatted_prompt = prompt.format(
@@ -20,18 +26,10 @@ def relevance(state: AgentState, config: RunnableConfig) -> AgentState:
         question=state.messages[-1].content,
     )
 
-    # Initialize the relevance model and LLM instance
-    relevance_model = Configuration.from_runnable_config(config).relevance_agent_model
-    llm = ChatGoogleGenerativeAI(
-        model=relevance_model,
-        temperature=0,
-        max_retries=2,
-        api_key=os.getenv("GEMINI_API_KEY"),
-    )
-
     # Run inference
     structured_llm = llm.with_structured_output(RelevanceResponse)
     result = structured_llm.invoke(formatted_prompt)
+    print('result', result)
     
     # Update the state with the result
     state.messages[-1].additional_kwargs["relevant"] = result.relevant

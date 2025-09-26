@@ -1,12 +1,11 @@
-from langchain_core.runnables import RunnableConfig
+
 from langchain_core.messages import HumanMessage
 from langgraph.types import interrupt
 
 from services.genie.agent.schemas import AgentState
 from services.genie.agent.utils import count_messages
 
-
-def human_in_loop(state: AgentState, config: RunnableConfig) -> AgentState:
+def human_in_loop(state: AgentState) -> AgentState:
     """
     This function asks the user to provide a relevant fantasy football question
     based on the relevance reasoning AIMessage from the most recent message in the state.

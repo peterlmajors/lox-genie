@@ -26,6 +26,8 @@ class PlanResponse(BaseModel):
     
 
 class ToolExecutorResponse(BaseModel):
+    tool_id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Unique ID for the tool execution.")
+    plan_id: str = Field(..., description="Unique ID for the plan.")
     tool: str = Field(..., description="Name of the tool selected to execute the task.")
     parameters: Dict[str, Any] = Field(..., description="Parameters for the tool selected to execute the task.")
     tool_response: Any = Field(..., description="Response from the tool selected to execute the task.")
