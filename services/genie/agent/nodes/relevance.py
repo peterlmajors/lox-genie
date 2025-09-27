@@ -28,8 +28,15 @@ def relevance(state: AgentState, config: RunnableConfig) -> AgentState:
 
     # Run inference
     structured_llm = llm.with_structured_output(RelevanceResponse)
-    result = structured_llm.invoke(formatted_prompt)
-    print('result', result)
+    try:
+        result = structured_llm.invoke(formatted_prompt)
+    except Exception as e:
+        print(f"Error in relevance node: {e}")
+        # Fallback response
+        result = RelevanceResponse(
+            relevant=False, 
+            reasoning="I'm having trouble processing your request right now. Please try again!"
+        )
     
     # Update the state with the result
     state.messages[-1].additional_kwargs["relevant"] = result.relevant
@@ -37,8 +44,7 @@ def relevance(state: AgentState, config: RunnableConfig) -> AgentState:
         state.messages.append(AIMessage(content=result.reasoning))
         state.message_counts = count_messages(state.messages)
     return state
-    
-# Route to planner if relevant, human_in_loop if not relevant
+
 def after_relevance(state: AgentState) -> str:
     """Route to planner if relevant, human_in_loop if not relevant"""
     last_human_message = next((m for m in reversed(state.messages) if m.type == "human"), None)

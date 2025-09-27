@@ -1,42 +1,34 @@
+# Lox API
+
 <div align="center">
   <img src="static/lox-logo512.png" alt="Lox Logo" width="128" height="128">
 </div>
 
-# Lox API
+The Lox API provides access to the **Lox Genie**, a fantasy football consultant built with and LangGraph and open source language models (gpt-oss:20b, llama3.1:8b, etc.), and the **Lox MCP Server**, to offer specialized fantasy football resources and tools.
 
-The Lox API provides access to the **Lox Genie**, a fantasy football consultant built with the Gemini family of LLMs and LangGraph, and the **Lox MCP Server**, a Model Context Protocol server offering specialized fantasy football data tools.
+## Thesis
+
+The use case for an agentic fantasy sports consultant is compelling: access to sports data is already democratized, player performances and news are burdensome to keep up with, and 'expert opinion' is bountiful via social media and newsletters but difficult to apply. Lox is designed for the fantasy sports power-user. By building a context-rich relationship with each user, Lox is able to apply strategic preferences across leagues and seasons — remembering not just who you manage, but how you like to play.
+
+Existing fantasy football sites like [KeepTradeCut](https://keeptradecut.com/) crowdsource valuations through direct player comparisons, while others like [FantasyCalc](https://fantasycalc.com/redraft-rankings) apply optimization algorithms to real trades, generating market-driven rankings. Behind the scenes, Lox performs a similar function, but with text data. Conversation histories are anonymized and useful insights are added to Lox's knowledge base, ensuring managers benefit from the network's collective intelligence. **Premium Feature**
+
+Fantasy football brings people together. However, the time spent required to stay competitive is inherently antisocial. Join Lox today.
 
 ## 🏈 What is Lox Genie?
 
-Lox Genie is a traditioanal deep research agent which uses LangGraph and a multi-node architecture that:
+Lox Genie is, fundamentally, a deep research agent which processes user queries by:
 
-- **Assesses relevance** of user queries to fantasy football topics
-- **Engages in human-in-the-loop** clarification when queries are unclear
+- **Assessing their relevance** for Lox's intended purpose and tool-calling cababilities
+- **Optionally, engaging a human-in-the-loop** to gain additional information to achieve the user's goal
 - **Plans research strategies** by breaking down complex questions into actionable subtasks
-- **Executes research** using specialized MCP tools for data gathering
+- **Executes research** using specialized MCP tools and resources for data gathering
 - **Provides expert analysis** with concise, well-supported recommendations
 
 The agent is designed to be maximally truth-seeking, providing resolute and non-ambiguous answers by blending its knowledge base with ground-up analysis.
 
-## 🛠️ MCP Server Tools
-
-The Lox MCP Server provides a comprehensive suite of fantasy football data tools:
-
-### Sleeper Platform Integration
-
-- **Draft Analysis**: Complete draft pick metadata, auction prices, and rookie/redraft classifications
-- **League Management**: User rosters, team records, waiver budgets, and league standings
-- **Player Data**: Comprehensive player information with metadata and statistics
-- **Team Analysis**: Detailed roster breakdowns with starters, bench players, and taxi squads
-
-### External Data Sources
-
-- **Fantasy Calc Rankings**: Dynasty and redraft player rankings with customizable scoring settings
-- **Utility Tools**: Mathematical operations and data processing capabilities
+## Contenxt 
 
 ## 🏗️ Architecture
-
-The platform is built with modern Python technologies and follows microservices architecture:
 
 - **FastAPI Service** (Port 8000): RESTful API with streaming chat capabilities
 - **MCP Server** (Port 8001): Model Context Protocol server for tool integration

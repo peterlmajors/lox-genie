@@ -12,7 +12,6 @@ prompt = PromptTemplate(
 
         <context>
         Today's date is {current_date}.
-        You are working in a collaborative environment with other agents.
         </context>
         
         <tools>
@@ -25,20 +24,29 @@ prompt = PromptTemplate(
         </task>
 
         <output_format>
-        You must respond with only a valid JSON object with this exact key and data type:
-        "tool": the name of the tool selected to execute the task.
-        "parameters": a dictionary of arguments to pass to the tool.
-        "tool_response": a dictionary of the tool response.
+        You must respond with only a valid JSON object with these exact keys:
+        "tool": the name of the tool selected to execute the task,
+        "parameters": a dictionary of arguments to pass to the tool,
+        "tool_response": a dictionary of the tool response
         </output_format>
         
-        <tool_example>
-        If the task is "Search Reddit for information about Caleb Williams", then the output should be:
-        {
+        <weather_example>
+        If the task is "Get weather for New York", then the output should be:
+        {{
+            "tool": "weather_search",
+            "parameters": {{"city": "New York"}},
+            "tool_response": {{"temperature": "72°F", "condition": "Sunny"}}
+        }}
+        </weather_example>
+        
+        <reddit_dynasty_example>
+        If the task is "Search DynastyFF for rookie running backs", then the output should be:
+        {{
             "tool": "subreddit_search",
-            "parameters": {"query": "Caleb Williams", "subreddit": "DynastyFF"},
-            "tool_response": {"The sentiment across reddit is that Caleb Williams will improve this year"}
-        }
-        </tool_example>
+            "parameters": {{"query": "rookie running backs", "subreddit": "DynastyFF"}},
+            "tool_response": {{"posts": ["Rookie RB analysis", "Draft strategy discussion"]}}
+        }}
+        </reddit_dynasty_example>
     """,
     input_variables=["current_date", "tools", "task"],
 )
