@@ -4,15 +4,22 @@
   <img src="static/lox-logo512.png" alt="Lox Logo" width="128" height="128">
 </div>
 
-The Lox API provides access to the **Lox Genie**, a fantasy football consultant built with and LangGraph and open source language models (gpt-oss:20b, llama3.1:8b, etc.), and the **Lox MCP Server**, to offer specialized fantasy football resources and tools.
+<br></br>
+The Lox API provides access to the <span style="color: orange; font-weight: bold;">Lox Genie</span>, a fantasy football consultant built with LangGraph and open source language models (gpt-oss:20b, llama3.1:8b, etc.), and the <span style="color: orange; font-weight: bold;">Lox MCP Server</span>, to offer fantasy football resources and tools in a unified format.
 
-## Thesis
+## 🧠 Thesis
 
-The use case for an agentic fantasy sports consultant is compelling: access to sports data is already democratized, player performances and news are burdensome to keep up with, and 'expert opinion' is bountiful via social media and newsletters but difficult to apply. Lox is designed for the fantasy sports power-user. By building a context-rich relationship with each user, Lox is able to apply strategic preferences across leagues and seasons — remembering not just who you manage, but how you like to play.
+The use case for an agentic fantasy sports consultant is compelling: access to sports data is already democratized, player performances and news are burdensome to keep up with, and 'expert opinion' is bountiful thanks to social media but difficult to apply. 
 
-Existing fantasy football sites like [KeepTradeCut](https://keeptradecut.com/) crowdsource valuations through direct player comparisons, while others like [FantasyCalc](https://fantasycalc.com/redraft-rankings) apply optimization algorithms to real trades, generating market-driven rankings. Behind the scenes, Lox performs a similar function, but with text data. Conversation histories are anonymized and useful insights are added to Lox's knowledge base, ensuring managers benefit from the network's collective intelligence. **Premium Feature**
+Lox is designed for the fantasy sports power-user. By building a context-rich relationship with each user, Lox is able to apply strategic preferences across leagues and seasons — remembering not just who you manage, but how you like to play.
 
-Fantasy football brings people together. However, the time spent required to stay competitive is inherently antisocial. Join Lox today.
+Existing fantasy football sites like [KeepTradeCut](https://keeptradecut.com/) crowdsource valuations through direct player comparisons, while others like [FantasyCalc](https://fantasycalc.com/redraft-rankings) apply optimization algorithms to real trades, generating market-driven rankings.
+
+Behind the scenes, Lox performs a similar function, but with text data. Conversation histories are anonymized and useful insights are added to Lox's knowledge base, ensuring managers benefit from the network's collective intelligence. (*Premium Feature*)
+
+Fantasy football brings people together. However, the time spent required to stay competitive is inherently antisocial. 
+
+Let's fix that. Join Lox today.
 
 ## 🏈 What is Lox Genie?
 
@@ -26,8 +33,6 @@ Lox Genie is, fundamentally, a deep research agent which processes user queries 
 
 The agent is designed to be maximally truth-seeking, providing resolute and non-ambiguous answers by blending its knowledge base with ground-up analysis.
 
-## Contenxt 
-
 ## 🏗️ Architecture
 
 - **FastAPI Service** (Port 8000): RESTful API with streaming chat capabilities
@@ -35,13 +40,13 @@ The agent is designed to be maximally truth-seeking, providing resolute and non-
 - **LangGraph Agent**: Multi-node workflow orchestration for intelligent research
 - **Docker Support**: Containerized deployment with docker-compose
 
-## Prerequisites
+## 🛠️ Prerequisites
 
 - Python 3.11+
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - Docker (for containerized deployment)
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Using Docker (Recommended)
 
