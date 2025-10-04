@@ -34,6 +34,7 @@ The agent is designed to be maximally truth-seeking, providing resolute and non-
 
 - **FastAPI Service** (Port 8000): RESTful API with streaming chat capabilities
 - **MCP Server** (Port 8001): Model Context Protocol server for tool integration
+- **React Frontend** (Port 80): Serves chat interface and curated news feed
 - **LangGraph Agent**: Multi-node workflow orchestration for intelligent research
 - **Docker Support**: Containerized deployment with docker-compose
 

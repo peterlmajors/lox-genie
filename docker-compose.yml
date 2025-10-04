@@ -29,6 +29,16 @@ services:
       - lox-network
     restart: unless-stopped
 
+  ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ui
+    ports:
+      - "80:80"
+    networks:
+      - lox-network
+    restart: unless-stopped
+
 networks:
   lox-network:
     driver: bridge
