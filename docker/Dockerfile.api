@@ -28,4 +28,4 @@ RUN uv sync --frozen --no-dev
 EXPOSE 8000
 
 # Run the FastAPI application using uv
-CMD ["uv", "run", "python", "-m", "services.genie.main"]
+CMD ["uv", "run", "python", "-m", "services.api.main"]

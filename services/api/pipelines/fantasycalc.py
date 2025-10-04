@@ -1,13 +1,9 @@
 import httpx
 import json
 import pandas as pd
-from fastapi import APIRouter, HTTPException
-from services.genie.core.config import settings
+from fastapi import HTTPException
+from services.api.core.config import settings
 
-router = APIRouter()
-
-
-@router.get("/rankings")
 async def get_rankings(dynasty: bool = False,superflex: bool = True, teams: int = 10, ppr: float = 1,top_n: int = 10):
     """
     Get rankings from Fantasy Calc API

@@ -2,8 +2,8 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
-from services.genie.core.config import settings
-from services.genie.schemas.chat import ChatRequest, ChatResponse
+from services.api.core.config import settings
+from services.api.schemas.chat import ChatRequest, ChatResponse
 
 router = APIRouter()
 

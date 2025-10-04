@@ -2,7 +2,7 @@ import os
 import sys
 import json
 from datetime import datetime, timezone
-from services.genie.crud.aws_s3 import list_s3_files
+from services.api.crud.aws_s3 import list_s3_files
 
 with open(
     os.path.abspath(os.path.join(os.getcwd(), "../../..", "sources.json")), "r"

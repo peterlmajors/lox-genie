@@ -1,6 +1,6 @@
 import uvicorn
-from services.genie.api.app import app
-from services.genie.core.config import settings
+from services.api.api.app import app
+from services.api.core.config import settings
 
 if __name__ == "__main__":
     uvicorn.run(

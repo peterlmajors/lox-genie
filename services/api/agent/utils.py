@@ -2,8 +2,8 @@
 from typing import List
 from datetime import datetime
 
-from services.genie.agent.schemas import MessageCounts
-from services.genie.schemas.chat import ChatMessage
+from services.api.agent.schemas import MessageCounts
+from services.api.schemas.chat import ChatMessage
 
 def get_current_date():
     """Get the current date and time in UTC."""
@@ -13,7 +13,7 @@ def get_current_date():
 #     """Get the tools from the tools module."""
 #     tools = []
 #     tools_dir = os.path.join(os.path.dirname(__file__), "tools")
-#     tools_pkg = "services.genie.agent.tools"
+#     tools_pkg = "services.api.agent.tools"
 
 #     for filename in os.listdir(tools_dir):
 #         if filename.endswith(".py") and not filename.startswith("__"):

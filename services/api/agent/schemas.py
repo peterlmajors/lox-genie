@@ -1,3 +1,4 @@
+
 from typing import List, Any, Dict, Union
 from langchain_core.messages import HumanMessage, AIMessage
 from pydantic import BaseModel, Field
@@ -27,7 +28,6 @@ class MessageCounts(BaseModel):
 
 class Context(BaseModel):
     context: str = Field(default="", description="Reduced context of the thread.")
-
 
 # State schemas
 class AgentState(BaseModel):

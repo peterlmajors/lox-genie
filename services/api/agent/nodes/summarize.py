@@ -4,12 +4,12 @@
 # from langgraph.graph import START, END
 
 # from langchain_google_genai import ChatGoogleGenerativeAI
-# from services.genie.core.config import settings
-# from services.genie.agent.prompts import get_current_date, get_research_topic, query_writer_instructions, answer_instructions
-# from services.genie.models.chat import SearchQueryList
-# from services.genie.models.chat import OverallState, QueryGenerationState
-# from services.genie.models.chat import Configuration
-# from services.genie.api.graph.state import AgentState
+# from services.api.core.config import settings
+# from services.api.agent.prompts import get_current_date, get_research_topic, query_writer_instructions, answer_instructions
+# from services.api.models.chat import SearchQueryList
+# from services.api.models.chat import OverallState, QueryGenerationState
+# from services.api.models.chat import Configuration
+# from services.api.api.graph.state import AgentState
 
 # def finalize_answer(state: AgentState, config: RunnableConfig):
 

@@ -14,6 +14,8 @@ export const generateResponse = async (question, conversationHistory = []) => {
       });
     }
 
+    
+
     return "Hello, world!";
   } catch (error) {
     console.error('Error generating response:', error);

@@ -2,8 +2,8 @@
 from langchain_core.messages import HumanMessage
 from langgraph.types import interrupt
 
-from services.genie.agent.schemas import AgentState
-from services.genie.agent.utils import count_messages
+from services.api.agent.schemas import AgentState
+from services.api.agent.utils import count_messages
 
 def human_in_loop(state: AgentState) -> AgentState:
     """

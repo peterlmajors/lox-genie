@@ -2,10 +2,10 @@
 from langchain_core.runnables import RunnableConfig
 from langchain_ollama import ChatOllama
 
-from services.genie.agent.config import Configuration
-from services.genie.agent.schemas import AgentState, PlanResponse
-from services.genie.agent.utils import get_current_date, count_messages, get_tools
-from services.genie.agent.prompts.planner import prompt
+from services.api.agent.config import Configuration
+from services.api.agent.schemas import AgentState, PlanResponse
+from services.api.agent.utils import get_current_date, count_messages
+from services.api.agent.prompts.planner import prompt
 
 def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     """LangGraph node which plans the trajectory of the agent."""
@@ -19,7 +19,7 @@ def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     )
 
     # Format the prompt
-    formatted_prompt = prompt.format(current_date=get_current_date(),tools=str(get_tools()),
+    formatted_prompt = prompt.format(current_date=get_current_date(),tools="",
                                      messages=state.messages[:-1],question=state.messages[-1].content)
 
     # Run inference

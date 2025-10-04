@@ -4,10 +4,10 @@ from langchain_core.runnables import RunnableConfig
 from langchain_ollama import ChatOllama
 from langgraph.graph import END
 
-from services.genie.agent.config import Configuration
-from services.genie.agent.schemas import AgentState, GatekeeperResponse
-from services.genie.agent.utils import get_current_date, get_tools, count_messages, remove_blank_fields
-from services.genie.agent.prompts.gatekeeper import prompt
+from services.api.agent.config import Configuration
+from services.api.agent.schemas import AgentState, GatekeeperResponse
+from services.api.agent.utils import get_current_date, count_messages, remove_blank_fields
+from services.api.agent.prompts.gatekeeper import prompt
 
 
 def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
@@ -29,7 +29,7 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     # Format the prompt
     formatted_prompt = prompt.format(
         current_date=get_current_date(),
-        tools=str(get_tools()),
+        tools="",
         knowledge_base="",  # TODO: Add knowledge base content
         messages=state.messages[:-1],
         question=state.messages[-1].content,

@@ -1,20 +1,19 @@
 version: '3.8'
 
 services:
-  genie:
+  api:
     build:
       context: .
-      dockerfile: docker/Dockerfile.genie
+      dockerfile: docker/Dockerfile.api
     ports:
       - "8000:8000"
     environment:
       - PYTHONPATH=/app
     volumes:
-      - ./config/config.py:/app/config/config.py
+      - ./services/api/core/config.py:/app/config/config.py
     networks:
       - lox-network
     restart: unless-stopped
-
   mcp:
     build:
       context: .
@@ -24,11 +23,10 @@ services:
     environment:
       - PYTHONPATH=/app
     volumes:
-      - ./config/config.py:/app/config/config.py
+      - ./services/mcp/core/config.py:/app/config/config.py
     networks:
       - lox-network
     restart: unless-stopped
-
   ui:
     build:
       context: .

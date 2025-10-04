@@ -1,13 +1,13 @@
 from langgraph.graph import StateGraph
 from langgraph.graph import START, END
-from services.genie.agent.schemas import AgentState
-from services.genie.agent.nodes.gatekeeper import gatekeeper, after_gatekeeper
-from services.genie.agent.nodes.human_in_loop import human_in_loop
-from services.genie.agent.nodes.executor import executor
-from services.genie.agent.nodes.planner import planner
-from services.genie.agent.config import Configuration
+from services.api.agent.schemas import AgentState
+from services.api.agent.nodes.gatekeeper import gatekeeper, after_gatekeeper
+from services.api.agent.nodes.human_in_loop import human_in_loop
+from services.api.agent.nodes.executor import executor
+from services.api.agent.nodes.planner import planner
+from services.api.agent.config import Configuration
 
-# Build Lox Genie Agent Graph
+# Build Lox Genie's Agent Graph
 builder = StateGraph(AgentState, config_schema=Configuration)
 
 # Nodes
