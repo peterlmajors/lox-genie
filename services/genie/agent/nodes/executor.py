@@ -5,7 +5,7 @@ from langchain_ollama import ChatOllama
 
 from services.genie.agent.config import Configuration
 from services.genie.agent.schemas import AgentState, ToolExecutorResponse
-from services.genie.agent.utils import get_current_date, count_messages, get_tools  
+from services.genie.agent.utils import get_current_date, count_messages 
 from services.genie.agent.prompts.executor import prompt
 
 def executor(state: AgentState, config: RunnableConfig) -> AgentState:
@@ -19,10 +19,6 @@ def executor(state: AgentState, config: RunnableConfig) -> AgentState:
         temperature=0
     )
     structured_llm = llm.with_structured_output(ToolExecutorResponse)
-
-    # Initialize the tools and bind
-    tools = get_tools()
-    llm.bind_tools([tool.func for tool in tools])
 
     # Run inference on each subtask and add to the state
     for subtask in state.plan[-1].subtasks:

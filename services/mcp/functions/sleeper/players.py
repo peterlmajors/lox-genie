@@ -1,9 +1,11 @@
-from services.genie.api.services.sleeper.api import get_nfl_players
+
+from services.mcp.functions.sleeper.api import get_nfl_players
 
 def get_fantasy_players(players=None, positions: list[str] = ["QB", "WR", "TE", "RB"]) -> dict:
     """
-    Filters player data to only include specified fantasy positions.
-    Adds debugging and error handling.
+    - Fetches all NFL players from the Sleeper API
+    - Filters to only include specified fantasy positions
+    - Fetches headshot URLs for each player from ESPN
     """
     if players is None:
         try:
@@ -20,11 +22,7 @@ def get_fantasy_players(players=None, positions: list[str] = ["QB", "WR", "TE", 
             position = player_data.get("position", "NA")
             if position in positions and player_data.get("active"):
                 espn_id = player_data.get("espn_id")
-                headshot = (
-                    f"https://a.espncdn.com/i/headshots/nfl/players/full/{espn_id}.png"
-                    if espn_id
-                    else None
-                )
+                headshot = (f"https://a.espncdn.com/i/headshots/nfl/players/full/{espn_id}.png" if espn_id else None)
 
                 filtered[player_id] = {
                     "player_id": player_data.get("player_id", player_id),
@@ -33,13 +31,8 @@ def get_fantasy_players(players=None, positions: list[str] = ["QB", "WR", "TE", 
                     "headshot": headshot,
                 }
         except Exception as e:
-            print(
-                f"get_fantasy_players(): Skipping player_id {player_id} due to error: {e}"
-            )
+            print(f"get_fantasy_players(): Skipping player_id {player_id} due to error: {e}")
             count_skipped += 1
             continue
-
-    print(
-        f"get_fantasy_players(): Filtered to {len(filtered)} players. Skipped {count_skipped} due to errors."
-    )
+    print(f"get_fantasy_players(): Filtered to {len(filtered)} players. Skipped {count_skipped} due to errors.")
     return filtered

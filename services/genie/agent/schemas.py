@@ -5,32 +5,28 @@ import uuid
 
 
 # Response schemas
-class MessageCounts(BaseModel):
-    message_count: int = Field(0, description="Total number of messages in thread.")
-    human_messages: int = Field(0, description="Number of human messages in thread.")
-    ai_messages: int = Field(0, description="Number of AI messages in thread.")
-
-
-class Context(BaseModel):
-    context: str = Field(default="", description="Reduced context of the thread.")
-
-
-class RelevanceResponse(BaseModel):
-    relevant: bool = Field(..., description="Whether the question is relevant")
-    reasoning: str = Field(default="", description="Response to user explaining why their question is not relevant")
-
+class GatekeeperResponse(BaseModel):
+    action: str = Field(..., description="The action to take: direct_answer, research_required, clarification_needed, or off_topic")
+    response: str = Field(default="", description="The response to give to the user")
 
 class PlanResponse(BaseModel):
     plan_id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Unique ID for the plan.")
     subtasks: List[str] = Field(..., description="List of subtasks to perform.")
     
-
 class ToolExecutorResponse(BaseModel):
     tool_id: str = Field(default_factory=lambda: str(uuid.uuid4()), description="Unique ID for the tool execution.")
     plan_id: str = Field(..., description="Unique ID for the plan.")
     tool: str = Field(..., description="Name of the tool selected to execute the task.")
     parameters: Dict[str, Any] = Field(..., description="Parameters for the tool selected to execute the task.")
     tool_response: Any = Field(..., description="Response from the tool selected to execute the task.")
+
+class MessageCounts(BaseModel):
+    message_count: int = Field(0, description="Total number of messages in thread.")
+    human_messages: int = Field(0, description="Number of human messages in thread.")
+    ai_messages: int = Field(0, description="Number of AI messages in thread.")
+
+class Context(BaseModel):
+    context: str = Field(default="", description="Reduced context of the thread.")
 
 
 # State schemas

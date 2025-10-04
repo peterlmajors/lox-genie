@@ -1,16 +1,16 @@
-from langchain_core.tools import tool
+
+from datetime import datetime, timezone
 import requests
 
-@tool
-def subreddit_search(query: str, subreddit: str) -> list[dict]:
+def reddit_search(query: str, subreddit: str) -> list[dict]:
     """
     Description:
-        Search a specific subreddit for information.
+        Search a specific subreddit for information. Available subreddits include: 'DynastyFF' and 'FantasyFootball'
     Parameters:
         query (str): The query to search the subreddit for
-        subreddit (str): The subreddit to search. Available subreddits include: 'DynastyFF' and 'FantasyFootball'
+        subreddit (str): The subreddit to search.
     Example:
-        SubredditSearch("Caleb Williams", "DynastyFF")
+        RedditSearch("Caleb Williams", "DynastyFF")
     Returns:
         A list of dictionaries, each containing the post data and metadata.
     """
@@ -32,19 +32,21 @@ def subreddit_search(query: str, subreddit: str) -> list[dict]:
                     post_data = {}
                     fields = [
                         ("id", "id"),
+                        ("created", "created"),
                         ("url", "url"),
+                        ("subreddit", "subreddit"),
                         ("title", "title"),
-                        ("author", "author"),
                         ("selftext", "selftext"),
                         ("upvotes", "ups"),
                         ("upvote_ratio", "upvote_ratio"),
                         ("comments", "num_comments"),
-                        ("media", "media"),
+                        # ("media", "media"),
                         ("is_video", "is_video"),
                         ("media_only", "media_only"),
                     ]
                     try:
                         post_data = {key: post["data"].get(reddit_key, "") for key, reddit_key in fields}
+                        post_data["created"] = datetime.fromtimestamp(post_data["created"], tz=timezone.utc).strftime("%B %d, %Y %H:%M UTC")
                         posts.append(post_data)
                     except Exception as e:
                         print(f"Error parsing post data: {e}")

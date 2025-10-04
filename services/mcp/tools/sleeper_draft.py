@@ -1,25 +1,16 @@
-from fastapi import APIRouter, HTTPException
-from services.genie.core.config import settings
-from services.genie.api.services.sleeper.api import get_league_users, get_all_draft_picks, get_all_league_drafts
 
-router = APIRouter()
+from services.mcp.functions.sleeper.api import get_league_users, get_all_draft_picks, get_all_league_drafts
 
-@router.get("/leagues/{league_id}/drafts/{draft_id}/picks")
 def get_all_draft_picks_metadata(league_id: int, draft_id: int) -> list[dict]:
     """
-    Get all draft picks metadata
-    Args:
-        league_id: int
-        draft_id: int
-    Returns:
-        list[dict]: List of draft picks metadata
+    Provided the league_id and draft_id, return all draft picks metadata
     """
     # Get league users, draft picks, and draft metadata
     users = get_league_users(league_id)
     picks = get_all_draft_picks(draft_id)
     draft = next(
         draft
-        for draft in get_all_league_drafts(settings.SLEEPER_IFL_24)
+        for draft in get_all_league_drafts(league_id)
         if draft["draft_id"] == str(draft_id)
     )
 
@@ -28,9 +19,7 @@ def get_all_draft_picks_metadata(league_id: int, draft_id: int) -> list[dict]:
     for pick in picks:
         pick_dict = {}
         pick_dict["player_id"] = pick["player_id"]
-        pick_dict["player_name"] = (
-            pick["metadata"]["first_name"] + " " + pick["metadata"]["last_name"]
-        )
+        pick_dict["player_name"] = (pick["metadata"]["first_name"] + " " + pick["metadata"]["last_name"])
         pick_dict["round"] = pick["round"]
         pick_dict["pick"] = pick["pick_no"]
         pick_dict["user_id"] = pick["picked_by"]
@@ -47,9 +36,7 @@ def get_all_draft_picks_metadata(league_id: int, draft_id: int) -> list[dict]:
         response.append(pick_dict)
     return response
 
-
-@router.get("/leagues/{league_id}/picks")
-async def get_league_picks(league_id: str) -> list[dict]:
+def get_league_picks(league_id: str) -> list[dict]:
     try:
         league_picks = []
         drafts = get_all_league_drafts(league_id)
@@ -75,6 +62,4 @@ async def get_league_picks(league_id: str) -> list[dict]:
                 league_picks.append(pick)
         return league_picks
     except Exception as e:
-        raise HTTPException(
-            status_code=502, detail=f"Failed to fetch league picks: {e}"
-        )
+        raise Exception(f"Failed to fetch league picks: {e}")

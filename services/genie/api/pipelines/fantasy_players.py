@@ -1,4 +1,4 @@
-from services.genie.api.services.sleeper.players import get_fantasy_players
+from services.mcp.functions.sleeper.api import get_fantasy_players
 from services.genie.crud.aws_s3 import post_s3
 import logging
 

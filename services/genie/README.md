@@ -17,18 +17,3 @@
 
 # 4. Synthesize and Respond
 - TBD: Respond to user referencing tool responses in combination with optimized query
-
-## === Future State Implementations ===
-- Improve context gathered at relevance node, as knowledge cut off can be limiting
-- Quick answer conditional edge and node, as determined by the planner
-- MCP tools running and resources supplied with short and detailed versions
-- Up/downvote on responses to reduce context poison
-- Personal preference memory bank by user
-- Caching on MCP tools 
-
-## === Notes ===
-- Knowledge Graph limits topical scope and token costs for planner
-- Planning tasks independent of calling tools and determining parameters:
-  - Allows for scalable planning without planner being overwhelmed by parameter context
-  - Avoids limitations of simple embeddings based retrieval on each task
-  - May be risks associated with decoupling task & tool call

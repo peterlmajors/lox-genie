@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from services.genie.api.routes.chat import router as chat_router
+from services.genie.api.routes.user import router as user_router
 from services.genie.core.config import settings
 
 # Configure logging

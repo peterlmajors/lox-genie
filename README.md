@@ -4,7 +4,7 @@
   <img src="static/lox-logo512.png" alt="Lox Logo" width="128" height="128">
 </div>
 
-This repository provides access to the Lox Genie, a fantasy football research assistant with LangGraph and open source language models (gpt-oss:20b, llama3.1:8b, etc.), and the Lox MCP Server, to offer fantasy football tools and resources in a unified format.
+This repository provides access to the Lox Genie, a fantasy football research assistant built with LangGraph and open source language models (gpt-oss:20b, llama3.1:8b, etc.), as well as the Lox MCP Server, to offer fantasy football tools and resources in a unified format.
 
 ## 🧠  Thesis
 
@@ -16,9 +16,7 @@ Existing fantasy football sites like [KeepTradeCut](https://keeptradecut.com/) c
 
 Behind the scenes, Lox performs a similar function, but with text data. Conversation histories are anonymized and useful insights are added to Lox's knowledge base, ensuring managers benefit from the network's collective intelligence. (*Premium Feature*)
 
-Fantasy football brings people together. However, keeping up with the competition can turn into a time-consuming, isolating task.
-
-Let's fix that. Join Lox today.
+Fantasy football brings people together. However, keeping up with the competition can turn into a time-consuming, isolating task. Let's fix that. Join Lox today.
 
 ## 🏈  What is Lox Genie?
 

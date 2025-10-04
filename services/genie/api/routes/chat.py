@@ -1,16 +1,14 @@
-import json
-import logging
-from fastapi import APIRouter, HTTPException, Depends
+
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 
 from services.genie.core.config import settings
-from services.genie.models.chat import ChatRequest, ChatResponse
-from services.genie.agent.gemini import validate_gemini_config
+from services.genie.schemas.chat import ChatRequest, ChatResponse
 
 router = APIRouter()
 
 @router.post("/genie", response_model=ChatResponse)
-async def lox_genie(request: ChatRequest, gemini_configured: None = Depends(validate_gemini_config)) -> ChatResponse:
+async def lox_genie(request: ChatRequest) -> ChatResponse:
     """
     Chat with Gemini AI model.
 
@@ -28,7 +26,7 @@ async def lox_genie(request: ChatRequest, gemini_configured: None = Depends(vali
 
 
 @router.post("/genie/stream")
-async def lox_genie_stream(request: ChatRequest, gemini_configured: None = Depends(validate_gemini_config)) -> StreamingResponse:
+async def lox_genie_stream(request: ChatRequest) -> StreamingResponse:
     """
     Stream chat response from Gemini AI model.
 

@@ -1,10 +1,7 @@
-from fastapi import APIRouter
-from services.genie.api.services.sleeper.api import get_league_users, get_league_rosters
-from services.genie.api.services.sleeper.utils import get_league_users_teams
 
-router = APIRouter()
+from services.mcp.functions.sleeper.api import get_league_users, get_league_rosters
+from services.mcp.functions.sleeper.utils import get_league_users_teams
 
-@router.get("/leagues/{league_id}/rosters")
 def get_league_rosters_metadata(league_id: str) -> list[dict]:
     """
     Get league rosters metadata.
@@ -29,8 +26,6 @@ def get_league_rosters_metadata(league_id: str) -> list[dict]:
 
     return league_rosters
 
-
-@router.get("/leagues/{league_id}/users")
 def get_users_teams(league_id: str) -> list[dict]:
 
     users_teams = []

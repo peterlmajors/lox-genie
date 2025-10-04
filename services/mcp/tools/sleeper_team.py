@@ -1,33 +1,14 @@
-import json
-from pathlib import Path
-from fastapi import APIRouter
-from services.genie.crud.aws_s3 import get_s3
-from services.genie.api.services.sleeper.api import get_league_rosters
-from services.genie.api.services.sleeper.utils import (
-    match_id_metadata,
-    roster_dict_to_df,
-    get_league_users_teams,
-)
 
-# Get the project root directory (two levels up from this file)
-# project_root = Path(__file__).parent.parent.parent.parent
-# fantasy_players_path = project_root / "data" / "fantasy_players.json"
-# with fantasy_players_path.open("r", encoding="utf-8") as f:
-#     sleeper_players: dict = json.load(f)
+from services.mcp.functions.sleeper.api import get_league_rosters
+from services.mcp.functions.sleeper.utils import match_id_metadata, roster_dict_to_df,get_league_users_teams
 
-sleeper_players = get_s3("lox-api", "fantasy_players.json")
+# sleeper_players = get_s3("lox-api", "fantasy_players.json")
+sleeper_players = {}
 
-router = APIRouter()
-
-
-@router.get("/leagues/{league_id}/users/{user_id}/roster")
-def get_user_roster(
-    league_id: str, user_id: str, players: dict = sleeper_players, df: bool = True
-):
+def get_user_roster(league_id: str, user_id: str, players: dict = sleeper_players, df: bool = True):
     """
     Fetches and processes user rosters for a given league_id.
     """
-
     def get_user_roster_ids(league_id: str, user_id: str) -> dict:
         rosters_raw = get_league_rosters(league_id)
         user_roster = next(
@@ -81,9 +62,7 @@ def get_user_roster(
         return roster_df.to_dict(orient="records")
     return roster
 
-
-@router.get("/users/{user_id}/leagues/{league_id}/record")
-def get_record(league_id: int, user_id: int) -> dict:
+def get_user_record(league_id: int, user_id: int) -> dict:
     """
     Get the record for a user in a league.
     """
@@ -93,9 +72,7 @@ def get_record(league_id: int, user_id: int) -> dict:
             losses = roster["settings"]["losses"]
             return {"wins": wins, "losses": losses}
 
-
-@router.get("/leagues/{league_id}/users/{user_id}/waiver_budget")
-def get_waiver_budget_spent(league_id: str, user_id: int = None) -> int | dict:
+def get_waiver_budget(league_id: str, user_id: int = None) -> int | dict:
 
     rosters = get_league_rosters(league_id)
 

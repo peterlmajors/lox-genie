@@ -6,17 +6,16 @@ from typing import Any, Optional
 
 class Configuration(BaseModel):
     """The configuration for the agent."""
-
+    gatekeeper_agent_model: str = Field(
+        default="llama3.1:8b",
+        metadata={
+            "description": "Language model used for agent gatekeeper assessment."
+        },
+    )
     planning_agent_model: str = Field(
         default="gpt-oss:20b",
         metadata={
             "description": "Language model used for agent planning."
-        },
-    )
-    relevance_agent_model: str = Field(
-        default="llama3.1:8b",
-        metadata={
-            "description": "Language model used for agent relevance assessment."
         },
     )
     executor_model: str = Field(

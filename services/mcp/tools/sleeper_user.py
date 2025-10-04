@@ -1,24 +1,16 @@
-from fastapi import APIRouter, HTTPException
+
 from collections import Counter
-from services.mcp.tools.sleeper_team import get_record
-from services.genie.api.services.sleeper.api import get_nfl_leagues_user
-from services.genie.core.config import settings
+from services.mcp.functions.sleeper.api import get_nfl_leagues_user
+from services.mcp.core.config import settings
 
-router = APIRouter()
-
-
-@router.get("/users/{user_id}/leagues")
-def get_nfl_leagues_user_metadata(
-    user_id: str, season: int = settings.NFL_YEAR
-) -> list:
+def get_nfl_leagues_user_metadata(user_id: str, season: int = settings.NFL_YEAR) -> list:
     """
     Get all NFL leagues for a user with metadata.
     """
     leagues = get_nfl_leagues_user(user_id, season)
     if not leagues:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No leagues found for user {user_id} in season {season}. The user may not exist or may not have any leagues for this season.",
+        raise Exception(
+            f"No leagues found for user {user_id} in season {season}. The user may not exist or may not have any leagues for this season.",
         )
 
     resp = []
@@ -84,8 +76,6 @@ def get_nfl_leagues_user_metadata(
 
     return resp
 
-
-@router.get("/users/{user_id}/leagues/current/record")
 def get_current_league_records(user_id: str) -> list[dict]:
     """
     Get the record for the current league(s) for a user.
@@ -103,8 +93,6 @@ def get_current_league_records(user_id: str) -> list[dict]:
             records.append(record)
     return records
 
-
-@router.get("/users/{user_id}/leagues/previous/record")
 def get_previous_league_records(user_id: str) -> list[dict]:
     """
     Get the record for the previous league for a user.
@@ -122,8 +110,6 @@ def get_previous_league_records(user_id: str) -> list[dict]:
             records.append(record)
     return records
 
-
-@router.get("/users/{user_id}/leagues/season/{year}/record")
 def get_season_records(user_id: int, year: int) -> list[dict]:
     """Get user records for a specific season across all leagues."""
     records = []
