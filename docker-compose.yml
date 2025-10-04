@@ -9,10 +9,14 @@ services:
       - "8000:8000"
     environment:
       - PYTHONPATH=/app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     volumes:
       - ./services/api/core/config.py:/app/config/config.py
     networks:
       - lox-network
+    depends_on:
+      - redis
     restart: unless-stopped
   mcp:
     build:
@@ -22,10 +26,14 @@ services:
       - "8001:8001"
     environment:
       - PYTHONPATH=/app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     volumes:
       - ./services/mcp/core/config.py:/app/config/config.py
     networks:
       - lox-network
+    depends_on:
+      - redis
     restart: unless-stopped
   ui:
     build:
@@ -36,6 +44,24 @@ services:
     networks:
       - lox-network
     restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - lox-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  redis_data:
 
 networks:
   lox-network:

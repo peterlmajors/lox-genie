@@ -69,7 +69,6 @@ def post_s3(data, bucket_name: str, file_name: str):
         print(f"An error occurred: {e}")
         return False
 
-
 def list_s3_objects(bucket_name: str):
     """
     Lists all files in an S3 bucket along with their last modified dates.
@@ -101,7 +100,6 @@ def list_s3_objects(bucket_name: str):
     except Exception as e:
         print(f"An error occurred: {e}")
         return {}
-
 
 def get_s3(bucket_name, file_name):
     """
