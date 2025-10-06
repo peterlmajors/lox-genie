@@ -9,7 +9,9 @@ from services.api.api.routes.chat import router as chat_router
 from services.api.api.routes.user import router as user_router
 from services.api.api.routes.health import router as health_router
 from services.api.api.routes.root import router as root_router
+from services.api.api.routes.redis import router as redis_router
 from services.api.core.config import settings
+from services.api.redis.client import startup_redis, shutdown_redis
 
 # Configure logging
 logging.basicConfig(level=getattr(logging, settings.LOG_LEVEL))
@@ -20,7 +22,14 @@ async def lifespan(app: FastAPI):
     """Manage application startup and shutdown events."""
     logger.info(f"Starting {settings.NAME} v{settings.VERSION}")
     logger.info(f"Environment: {settings.ENV}")
+    
+    # Startup
+    await startup_redis()
+    
     yield
+    
+    # Shutdown
+    await shutdown_redis()
     logger.info(f"Shutting down {settings.NAME}")
 
 # Initialize FastAPI app with lifespan
@@ -52,3 +61,4 @@ app.include_router(chat_router, tags=["Chat"])
 app.include_router(user_router, tags=["User"])
 app.include_router(health_router, tags=["Health"])
 app.include_router(root_router, tags=["Root"])
+app.include_router(redis_router, prefix="/redis", tags=["Redis"])
