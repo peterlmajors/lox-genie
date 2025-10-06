@@ -35,7 +35,6 @@ class RedisServer:
                 decode_responses=True,
                 socket_connect_timeout=5,
                 socket_timeout=5,
-                retry_on_timeout=True,
                 health_check_interval=30,
             )
 
@@ -52,7 +51,7 @@ class RedisServer:
     async def disconnect(self) -> None:
         """Disconnect from Redis server"""
         if self.redis_client:
-            await self.redis_client.close()
+            await self.redis_client.aclose()
             logger.info("Disconnected from Redis")
 
     async def health_check(self) -> Dict[str, Any]:
@@ -103,17 +102,38 @@ async def shutdown_event():
     logger.info("Redis server stopped")
 
 
-if __name__ == "__main__":
+async def run_service():
+    """Run the Redis service continuously"""
+    server = RedisServer()
 
-    async def main():
-        """Main function for testing"""
-        server = RedisServer()
+    try:
         await server.connect()
+        logger.info("Redis service started successfully")
 
-        # Test health check
-        health = await server.health_check()
-        print(f"Health check: {health}")
+        # Run health checks periodically
+        while True:
+            try:
+                health = await server.health_check()
+                if health["status"] == "healthy":
+                    logger.debug(f"Redis health check: {health}")
+                else:
+                    logger.warning(f"Redis health check failed: {health}")
 
+                # Wait 30 seconds between health checks
+                await asyncio.sleep(30)
+
+            except Exception as e:
+                logger.error(f"Health check error: {e}")
+                await asyncio.sleep(30)
+
+    except Exception as e:
+        logger.error(f"Redis service failed to start: {e}")
+        raise
+    finally:
         await server.disconnect()
+        logger.info("Redis service stopped")
 
-    asyncio.run(main())
+
+if __name__ == "__main__":
+    # Run the service
+    asyncio.run(run_service())

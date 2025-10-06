@@ -1,0 +1,39 @@
+FROM python:3.11-slim AS base
+
+# Install uv from its official container image
+COPY --from=ghcr.io/astral-sh/uv:0.4.9 /uv /bin/uv
+
+# Set environment variables for uv
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
+
+# Set working directory
+WORKDIR /app
+
+# Copy dependency files (pyproject.toml and uv.lock)
+# Using '*' for uv.lock makes it optional if not yet generated
+COPY pyproject.toml uv.lock* /app/
+
+# Install dependencies using uv sync with caching
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev
+
+# Copy application code
+COPY . .
+
+# Install the project itself
+RUN uv sync --frozen --no-dev
+
+# Set default environment variables for Redis service
+ENV REDIS_HOST=localhost \
+    REDIS_PORT=6379 \
+    REDIS_DB=0 \
+    REDIS_KEY_PREFIX=thread \
+    REDIS_TTL_SECONDS=2592000 \
+    LOG_LEVEL=INFO
+
+# Expose port (Redis service typically runs on 6379, but this is for the wrapper service)
+EXPOSE 8080
+
+# Run the Redis service using uv
+CMD ["uv", "run", "python", "-m", "services.redis.main"]
