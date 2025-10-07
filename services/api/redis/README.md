@@ -51,7 +51,7 @@ REDIS_TTL_SECONDS=2592000  # 30 days
 ```python
 from fastapi import APIRouter, Depends
 from services.api.redis.client import get_redis_client, RedisClient
-from services.api.redis.models.agent_state import AgentStateRedis
+from services.api.redis.agent_state import AgentStateRedis
 
 router = APIRouter()
 

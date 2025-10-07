@@ -3,7 +3,6 @@ Redis configuration for API service
 """
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Optional
 
 
 class RedisSettings(BaseSettings):
@@ -12,7 +11,7 @@ class RedisSettings(BaseSettings):
     # Redis connection settings
     redis_host: str = "localhost"
     redis_port: int = 6379
-    redis_password: Optional[str] = None
+    redis_password: str | None = None
     redis_db: int = 0
 
     # Redis key settings
@@ -31,17 +30,5 @@ class RedisSettings(BaseSettings):
 
 def get_redis_settings() -> RedisSettings:
     """Get Redis settings"""
-    import os
-
-    print(f"DEBUG: Environment variables:")
-    print(f"  REDIS_HOST: {os.getenv('REDIS_HOST', 'NOT_SET')}")
-    print(f"  REDIS_PORT: {os.getenv('REDIS_PORT', 'NOT_SET')}")
-    print(f"  REDIS_DB: {os.getenv('REDIS_DB', 'NOT_SET')}")
-
     settings = RedisSettings()
-    print(f"DEBUG: Loaded settings:")
-    print(f"  redis_host: {settings.redis_host}")
-    print(f"  redis_port: {settings.redis_port}")
-    print(f"  redis_db: {settings.redis_db}")
-
     return settings

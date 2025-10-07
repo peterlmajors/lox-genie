@@ -1,18 +1,12 @@
-"""
-Redis client for API service - handles connection and provides agent state operations
-"""
 
 import asyncio
 import logging
 from typing import Optional, Dict, Any, List
-from datetime import datetime, timedelta
-
 import redis.asyncio as redis
-from fastapi import Depends
 
-from .core.config import get_redis_settings
-from .models.agent_state import AgentStateRedis
-from .crud.agent_state import AgentStateCRUD
+from services.api.redis.config import get_redis_settings
+from services.api.redis.agent_state import AgentStateRedis
+from services.api.redis.agent_state_crud import AgentStateCRUD
 
 logger = logging.getLogger(__name__)
 

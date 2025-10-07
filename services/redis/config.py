@@ -27,10 +27,6 @@ class Settings(BaseSettings):
     cleanup_interval_hours: int = 24
     max_ttl_days: int = 30
 
-    model_config = SettingsConfigDict(
-        env_file=".env", env_prefix="REDIS_", case_sensitive=False
-    )
-
 
 def get_settings() -> Settings:
     """Get Redis service settings"""

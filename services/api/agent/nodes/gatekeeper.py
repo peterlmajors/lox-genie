@@ -38,11 +38,7 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     # Run inference
     structured_llm = llm.with_structured_output(GatekeeperResponse)
     try:
-        # result = structured_llm.invoke(formatted_prompt) # TEMP
-        result = GatekeeperResponse(
-            action="direct_answer",
-            response="This is a test response.",
-        )
+        result = structured_llm.invoke(formatted_prompt)       
     except Exception as e:
         print(f"Error in gatekeeper node: {e}")
         result = GatekeeperResponse(

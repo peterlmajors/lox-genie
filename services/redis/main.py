@@ -7,10 +7,9 @@ For full functionality, use the Redis client in services/api/redis/
 import asyncio
 import logging
 from typing import Dict, Any
-
 import redis.asyncio as redis
 
-from .core.config import get_settings
+from .config import get_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

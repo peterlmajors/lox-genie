@@ -1,3 +1,0 @@
-"""
-Redis CRUD package
-"""

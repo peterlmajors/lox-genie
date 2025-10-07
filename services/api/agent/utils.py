@@ -37,12 +37,14 @@ def get_current_date():
 #          delattr(tool, "args_schema")
 #     return tools
 
-def count_messages(messages: List[ChatMessage]) -> MessageCounts:
+def count_messages(messages: List) -> MessageCounts:
     """Count of messages from the state."""
+    from langchain_core.messages import HumanMessage, AIMessage
+    
     return MessageCounts(
         total=len(messages),
-        user=sum(1 for message in messages if message.__class__.__name__ == "HumanMessage"),
-        lox=sum(1 for message in messages if message.__class__.__name__ == "AIMessage"),
+        user=sum(1 for message in messages if isinstance(message, HumanMessage)),
+        lox=sum(1 for message in messages if isinstance(message, AIMessage)),
     )
 
 def remove_blank_fields(message: ChatMessage) -> ChatMessage:

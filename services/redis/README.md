@@ -64,7 +64,7 @@ If you need full agent state management with LangChain integration, use:
 
 ```python
 from services.api.redis.client import get_redis_client
-from services.api.redis.models.agent_state import AgentStateRedis
+from services.api.redis.agent_state import AgentStateRedis
 
 redis_client = await get_redis_client()
 agent_state = await redis_client.get_agent_state("thread_123")

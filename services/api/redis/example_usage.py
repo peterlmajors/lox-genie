@@ -4,7 +4,7 @@ Example usage of Redis client for agent state management in API service
 
 import asyncio
 from services.api.redis.client import get_redis_client
-from services.api.redis.models.agent_state import AgentStateRedis
+from services.api.redis.agent_state import AgentStateRedis
 
 
 async def example_usage():

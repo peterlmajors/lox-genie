@@ -5,15 +5,13 @@ import json
 import logging
 from typing import Optional, List
 from datetime import datetime, timedelta
-
-import redis.asyncio as redis
 from pydantic import ValidationError
+import redis.asyncio as redis
 
-from ..models.agent_state import AgentStateRedis
-from ..core.config import get_redis_settings
+from services.api.redis.agent_state import AgentStateRedis
+from services.api.redis.config import get_redis_settings
 
 logger = logging.getLogger(__name__)
-
 
 class AgentStateCRUD:
     """CRUD operations for AgentState in Redis"""

@@ -8,7 +8,7 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 
 from services.api.redis.client import get_redis_client, RedisClient
-from services.api.redis.models.agent_state import AgentStateRedis, MessageRedis
+from services.api.redis.agent_state import AgentStateRedis
 
 router = APIRouter()
 

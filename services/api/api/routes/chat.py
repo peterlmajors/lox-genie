@@ -3,25 +3,20 @@ import logging
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
-from typing import Optional
 
 from services.api.agent.graph import graph
 from services.api.agent.schemas import AgentState
 from services.api.agent.utils import count_messages
-from services.api.schemas.chat import ChatResponse, ChatMessage
+from services.api.schemas.chat import ChatResponse, ChatMessage, ChatRequest
 from services.api.redis.client import get_redis_client, RedisClient
-from services.api.redis.models.agent_state import AgentStateRedis
+from services.api.redis.agent_state import AgentStateRedis
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 @router.post("/genie", response_model=ChatResponse)
-async def lox_genie(
-    message: str, 
-    thread_id: Optional[str] = None,
-    redis_client: RedisClient = Depends(get_redis_client)
-) -> ChatResponse:
+async def lox_genie(message: str, thread_id: Optional[str] = None, redis_client: RedisClient = Depends(get_redis_client)) -> ChatResponse:
     """
     Chat with the Lox Genie.
     Args:
@@ -32,6 +27,11 @@ async def lox_genie(
         ChatResponse: AI response with content and metadata
     """
     try:
+        if thread_id:
+            request = ChatRequest(messages=[ChatMessage(content=message, role="user")], thread_id=thread_id)
+        else:
+            request = ChatRequest(messages=[ChatMessage(content=message, role="user")])
+
         # Get or create agent state
         if thread_id:
             redis_state = await redis_client.get_agent_state(thread_id)
@@ -57,28 +57,28 @@ async def lox_genie(
         await redis_client.set_agent_state(redis_state)
 
         # Return the response
-        return ChatResponse(response=state.messages[-1].content)
+        return ChatResponse(response=state.messages[-1].content, thread_id=state.thread_id)
     except Exception as exc:
         logger.error(f"Error in lox_genie: {exc}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to generate response: {str(exc)}")
 
 
 @router.post("/genie/stream")
-async def lox_genie_stream(message: str) -> StreamingResponse:
+async def lox_genie_stream(request: ChatRequest) -> StreamingResponse:
     """
     Stream chat response from Lox Genie.
 
     Args:
-        message: User message to chat with Lox Genie
+        request: Chat request containing messages and thread ID
 
     Returns:
         StreamingResponse: Streamed AI response
     """
     try:
-        request = AgentState(messages=[ChatMessage(role="user", content=message)], stream=True)
-        request.messages.append(HumanMessage(content=message))
-        request.message_counts = count_messages(request.messages)
-        return StreamingResponse(graph.stream(request))
+        state = AgentState(messages=[], stream=True)
+        state.messages.extend([HumanMessage(content=message.content) for message in request.messages])
+        state.message_counts = count_messages(state.messages)
+        return StreamingResponse(graph.stream(state))
     except Exception as exc:
         logger.error(f"Error in lox_genie_stream: {exc}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to start streaming response: {str(exc)}")
