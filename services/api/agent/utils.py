@@ -1,13 +1,21 @@
 
 from typing import List
 from datetime import datetime
-
 from services.api.agent.schemas import MessageCounts
-from services.api.schemas.chat import ChatMessage
 
 def get_current_date():
     """Get the current date and time in UTC."""
     return datetime.utcnow().strftime("%B %d, %Y %H:%M UTC")
+
+def count_messages(messages: List) -> MessageCounts:
+    """Count of messages from the state."""
+    from langchain_core.messages import HumanMessage, AIMessage
+    
+    return MessageCounts(
+        total=len(messages),
+        user=sum(1 for message in messages if isinstance(message, HumanMessage)),
+        lox=sum(1 for message in messages if isinstance(message, AIMessage)),
+    )
 
 # def get_tools():
 #     """Get the tools from the tools module."""
@@ -37,16 +45,6 @@ def get_current_date():
 #          delattr(tool, "args_schema")
 #     return tools
 
-def count_messages(messages: List) -> MessageCounts:
-    """Count of messages from the state."""
-    from langchain_core.messages import HumanMessage, AIMessage
-    
-    return MessageCounts(
-        total=len(messages),
-        user=sum(1 for message in messages if isinstance(message, HumanMessage)),
-        lox=sum(1 for message in messages if isinstance(message, AIMessage)),
-    )
-
-def remove_blank_fields(message: ChatMessage) -> ChatMessage:
-    """Drop fields with values of null, {}, [], or '' except 'additional_kwargs'"""
-    return {k: v for k, v in message.model_dump().items() if k != "additional_kwargs" and v not in [None, {}, [], ""]}
+# def remove_blank_fields(message: Message) -> Message:
+#     """Drop fields with values of null, {}, [], or '' except 'additional_kwargs'"""
+#     return {k: v for k, v in message.model_dump().items() if k != "additional_kwargs" and v not in [None, {}, [], ""]}

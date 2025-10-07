@@ -6,7 +6,7 @@ from langgraph.graph import END
 
 from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, GatekeeperResponse
-from services.api.agent.utils import get_current_date, count_messages, remove_blank_fields
+from services.api.agent.utils import get_current_date, count_messages
 from services.api.agent.prompts.gatekeeper import prompt
 
 

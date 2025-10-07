@@ -10,6 +10,7 @@ from services.api.api.routes.user import router as user_router
 from services.api.api.routes.health import router as health_router
 from services.api.api.routes.root import router as root_router
 from services.api.api.routes.redis import router as redis_router
+from services.api.api.routes.thread import router as thread_router
 from services.api.core.config import settings
 from services.api.redis.client import startup_redis, shutdown_redis
 
@@ -58,6 +59,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # Include API routes
 app.include_router(chat_router, tags=["Chat"])
+app.include_router(thread_router, tags=["Thread"])
 app.include_router(user_router, tags=["User"])
 app.include_router(health_router, tags=["Health"])
 app.include_router(root_router, tags=["Root"])

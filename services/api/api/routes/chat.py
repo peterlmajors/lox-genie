@@ -1,5 +1,6 @@
 
 import logging
+from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
@@ -7,7 +8,7 @@ from langchain_core.messages import HumanMessage
 from services.api.agent.graph import graph
 from services.api.agent.schemas import AgentState
 from services.api.agent.utils import count_messages
-from services.api.schemas.chat import ChatResponse, ChatMessage, ChatRequest
+from services.api.schemas.chat import ChatResponse
 from services.api.redis.client import get_redis_client, RedisClient
 from services.api.redis.agent_state import AgentStateRedis
 
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.post("/genie", response_model=ChatResponse)
-async def lox_genie(message: str, thread_id: Optional[str] = None, redis_client: RedisClient = Depends(get_redis_client)) -> ChatResponse:
+async def lox_genie(message: str, thread_id: str | None = None, redis_client: RedisClient = Depends(get_redis_client)) -> ChatResponse:
     """
     Chat with the Lox Genie.
     Args:
@@ -27,11 +28,6 @@ async def lox_genie(message: str, thread_id: Optional[str] = None, redis_client:
         ChatResponse: AI response with content and metadata
     """
     try:
-        if thread_id:
-            request = ChatRequest(messages=[ChatMessage(content=message, role="user")], thread_id=thread_id)
-        else:
-            request = ChatRequest(messages=[ChatMessage(content=message, role="user")])
-
         # Get or create agent state
         if thread_id:
             redis_state = await redis_client.get_agent_state(thread_id)
@@ -64,19 +60,21 @@ async def lox_genie(message: str, thread_id: Optional[str] = None, redis_client:
 
 
 @router.post("/genie/stream")
-async def lox_genie_stream(request: ChatRequest) -> StreamingResponse:
+async def lox_genie_stream(messages: List[str], thread_id: str | None = None, redis_client: RedisClient = Depends(get_redis_client)) -> StreamingResponse:
     """
     Stream chat response from Lox Genie.
 
     Args:
-        request: Chat request containing messages and thread ID
+        messages: List of user messages to chat with Lox Genie
+        thread_id: Optional thread ID for conversation continuity
+        redis_client: Redis client for state management
 
     Returns:
         StreamingResponse: Streamed AI response
     """
     try:
         state = AgentState(messages=[], stream=True)
-        state.messages.extend([HumanMessage(content=message.content) for message in request.messages])
+        state.messages.extend([HumanMessage(content=message) for message in messages])
         state.message_counts = count_messages(state.messages)
         return StreamingResponse(graph.stream(state))
     except Exception as exc:
