@@ -1,6 +1,6 @@
-
+import os
 from langchain_core.runnables import RunnableConfig
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 
 from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, PlanResponse
@@ -11,11 +11,12 @@ def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     """LangGraph node which plans the trajectory of the agent."""
 
     # Initialize the planning model and LLM instance
-    planning_model = Configuration.from_runnable_config(config).planning_agent_model
-    llm = ChatOllama(
-        model=planning_model,
-        reasoning=True,
-        temperature=0.3
+    configuration = Configuration.from_runnable_config(config)
+    llm = ChatOpenAI(
+        base_url=os.getenv("LLM_BASE_URL"),
+        api_key="not-needed",  # llama.cpp doesn't require API key
+        model=configuration.planning_agent_model,
+        temperature=0.3,
     )
 
     # Format the prompt

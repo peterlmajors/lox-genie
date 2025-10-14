@@ -1,41 +1,23 @@
-
-from fastapi import APIRouter, status, Depends
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from fastapi import APIRouter
 from services.api.core.config import settings
-from services.api.redis.client import get_redis_client, RedisClient
+from services.api.schemas.health import HealthResponse
+# from services.api.redis.client import get_redis_client, RedisClient
 import socket
 import time
 
-router = APIRouter()
+# redis_client: RedisClient = Depends(get_redis_client)
 
-class HealthResponse(BaseModel):
-    status: str
-    service: str
-    version: str
-    environment: str
-    hostname: str
-    uptime: float
-    timestamp: float
-    redis_status: dict
+router = APIRouter()
 
 _start_time = time.time()
 
-@router.get(
-    "/health",
-    response_model=HealthResponse,
-    summary="Health check endpoint",
-    description="Returns service health, version, environment, hostname, uptime, and timestamp.",
-    tags=["Health"],
-    response_description="Health status and service metadata.",
-    status_code=status.HTTP_200_OK,
-)
-async def health_check(redis_client: RedisClient = Depends(get_redis_client)) -> JSONResponse:
+@router.get("/health", response_model=HealthResponse)
+async def health_check() -> HealthResponse:
     """Comprehensive health check endpoint for service monitoring."""
     now = time.time()
     
     # Get Redis health status
-    redis_health = await redis_client.health_check()
+    # redis_health = await redis_client.health_check()
     
     response = HealthResponse(
         status="ok",
@@ -44,7 +26,6 @@ async def health_check(redis_client: RedisClient = Depends(get_redis_client)) ->
         environment=settings.ENV,
         hostname=socket.gethostname(),
         uptime=now - _start_time,
-        timestamp=now,
-        redis_status=redis_health,
+        timestamp=now
     )
-    return JSONResponse(status_code=status.HTTP_200_OK, content=response.model_dump())
+    return response

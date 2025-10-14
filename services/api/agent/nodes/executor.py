@@ -1,7 +1,10 @@
-
+"""
+Executor node for the agent
+"""
+import os
 import uuid
+from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnableConfig
-from langchain_ollama import ChatOllama
 
 from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, ToolExecutorResponse
@@ -9,20 +12,20 @@ from services.api.agent.utils import get_current_date, count_messages
 from services.api.agent.prompts.executor import prompt
 
 def executor(state: AgentState, config: RunnableConfig) -> AgentState:
-    """LangGraph node which assesses the relevance of the user's question to the topic"""
 
     # Initialize the executor model and LLM instance
-    executor_model = Configuration.from_runnable_config(config).executor_model
-    llm = ChatOllama(
-        model=executor_model,
-        reasoning=True,
-        temperature=0
+    configuration = Configuration.from_runnable_config(config)
+    llm = ChatOpenAI(
+        base_url=os.getenv("LLM_BASE_URL"),
+        api_key="not-needed",  # llama.cpp doesn't require API key
+        model=configuration.executor_model,
+        temperature=0.0,
     )
     structured_llm = llm.with_structured_output(ToolExecutorResponse)
 
     # Run inference on each subtask and add to the state
     for subtask in state.plan[-1].subtasks:
-        formatted_prompt = prompt.format(current_date=get_current_date(), tools=str(tools), task=subtask)
+        formatted_prompt = prompt.format(current_date=get_current_date(), tools="", task=subtask)
         result = structured_llm.invoke(formatted_prompt)
         
         result.plan_id = state.plan[-1].plan_id

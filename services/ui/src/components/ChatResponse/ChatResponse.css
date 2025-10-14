@@ -10,7 +10,7 @@
 }
 
 .chat-page-container .genie-content {
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 3rem 2rem;
   margin-top: 5rem;
   max-width: 1200px;
   margin-left: auto;
@@ -62,6 +62,13 @@
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.username-display {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
 }
 
 .question-label {
@@ -532,6 +539,7 @@
 /* Simple Text Box Styles */
 .simple-chat-container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   animation: fadeInUp 0.8s ease-out 0.4s both;
   display: flex;
   justify-content: center;

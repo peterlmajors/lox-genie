@@ -1,0 +1,121 @@
+# Local development configuration (Mac optimized with llama.cpp)
+# Usage: docker-compose -f docker-compose-local.yml up
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - REDIS_KEY_PREFIX=thread
+      - REDIS_TTL_SECONDS=2592000
+      - LLM_BASE_URL=http://llama:8002/v1
+    volumes:
+      - ./services/api:/app/services/api  # Hot reload: mount API source code
+      - ./pyproject.toml:/app/pyproject.toml
+      - ./uv.lock:/app/uv.lock
+    networks:
+      - lox-network
+    depends_on:
+      - redis
+      - llama
+    restart: unless-stopped
+    command: ["uv", "run", "uvicorn", "services.api.api.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  mcp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mcp
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONPATH=/app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./services/mcp:/app/services/mcp  # Hot reload: mount MCP source code
+      - ./pyproject.toml:/app/pyproject.toml
+      - ./uv.lock:/app/uv.lock
+    networks:
+      - lox-network
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  ui:
+    image: node:22-alpine  # Use Node directly for dev mode
+    working_dir: /app
+    ports:
+      - "3000:3000"  # React dev server port
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Enable hot reload in Docker
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./services/ui:/app  # Hot reload: mount UI source code
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - /app/node_modules  # Anonymous volume to prevent overwriting node_modules
+    networks:
+      - lox-network
+    restart: unless-stopped
+    command: sh -c "npm install && npm start"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - lox-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  llama:
+    # llama.cpp server for efficient Mac CPU inference
+    image: ghcr.io/ggerganov/llama.cpp:server
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./models:/models:ro  # Mount local models directory (read-only)
+    networks:
+      - lox-network
+    restart: unless-stopped
+    command: 
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8002"
+      - -m
+      - /models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+      - -c
+      - "4096"
+      - --n-gpu-layers
+      - "0"
+      - -t
+      - "6"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  redis_data:
+
+networks:
+  lox-network:
+    driver: bridge
+

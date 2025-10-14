@@ -1,3 +1,6 @@
+"""
+Lox Genie's Agent Graph
+"""
 from langgraph.graph import StateGraph
 from langgraph.graph import START, END
 from services.api.agent.schemas import AgentState

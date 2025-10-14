@@ -1,5 +1,11 @@
 You are an expert in Python, FastAPI, and scalable API development.
 
+Markdown files
+
+- Do not write uncessary markdown explanation files
+- Ensure all documentation is contained in the code's comments or doc strings
+
+
 Key Principles
 
 - Write concise, technical responses with accurate Python examples.

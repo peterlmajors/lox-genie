@@ -104,96 +104,67 @@ class RedisClient:
             return {"status": "unhealthy", "error": str(e)}
 
     # Agent State Operations
-    async def get_agent_state(self, thread_id: str) -> Optional[AgentStateRedis]:
-        """Get agent state by thread_id"""
+    async def get_agent_state(self, thread_id: str) -> Optional[Dict[str, Any]]:
+        """Get agent state as dictionary by thread_id"""
         try:
             await self.ensure_connected()
-            return await self.crud.get(self.redis_client, thread_id)
+            return await self.crud.get_agent_state(self.redis_client, thread_id)
         except Exception as e:
             logger.error(f"Failed to get agent state for thread {thread_id}: {e}")
             return None
 
-    async def set_agent_state(self, agent_state: AgentStateRedis) -> bool:
-        """Set agent state with thread_id as key"""
+    async def set_agent_state(self, thread_id: str, state_dict: Dict[str, Any]) -> bool:
+        """Set agent state as dictionary with thread_id as key"""
         try:
             await self.ensure_connected()
-            return await self.crud.set(self.redis_client, agent_state)
+            return await self.crud.set_agent_state(self.redis_client, thread_id, state_dict)
         except Exception as e:
-            logger.error(
-                f"Failed to set agent state for thread {agent_state.thread_id}: {e}"
-            )
+            logger.error(f"Failed to set agent state for thread {thread_id}: {e}")
             return False
 
     async def delete_agent_state(self, thread_id: str) -> bool:
         """Delete agent state by thread_id"""
         try:
             await self.ensure_connected()
-            return await self.crud.delete(self.redis_client, thread_id)
+            return await self.crud.delete_agent_state(self.redis_client, thread_id)
         except Exception as e:
             logger.error(f"Failed to delete agent state for thread {thread_id}: {e}")
             return False
 
-    async def exists_agent_state(self, thread_id: str) -> bool:
-        """Check if agent state exists for thread_id"""
+    async def delete_all_threads(self) -> int:
+        """Delete all agent states (all threads)"""
         try:
             await self.ensure_connected()
-            return await self.crud.exists(self.redis_client, thread_id)
+            return await self.crud.delete_all_threads(self.redis_client)
         except Exception as e:
-            logger.error(f"Failed to check existence for thread {thread_id}: {e}")
-            return False
+            logger.error(f"Failed to delete all threads: {e}")
+            return 0
 
-    async def get_agent_state_ttl(self, thread_id: str) -> int:
-        """Get TTL for agent state"""
+    async def list_thread_ids(self) -> List[str]:
+        """List all thread IDs"""
         try:
             await self.ensure_connected()
-            return await self.crud.get_ttl(self.redis_client, thread_id)
-        except Exception as e:
-            logger.error(f"Failed to get TTL for thread {thread_id}: {e}")
-            return -1
-
-    async def extend_agent_state_ttl(self, thread_id: str, ttl_seconds: int) -> bool:
-        """Extend TTL for agent state"""
-        try:
-            await self.ensure_connected()
-            return await self.crud.extend_ttl(self.redis_client, thread_id, ttl_seconds)
-        except Exception as e:
-            logger.error(f"Failed to extend TTL for thread {thread_id}: {e}")
-            return False
-
-    async def list_thread_ids(self, pattern: str = "*") -> List[str]:
-        """List all thread IDs matching pattern"""
-        try:
-            await self.ensure_connected()
-            return await self.crud.list_all(self.redis_client, pattern)
+            return await self.crud.list_thread_ids(self.redis_client)
         except Exception as e:
             logger.error(f"Failed to list thread IDs: {e}")
             return []
 
-    async def count_agent_states(self) -> int:
-        """Count total number of agent states"""
+    async def thread_exists(self, thread_id: str) -> bool:
+        """Check if thread exists"""
         try:
             await self.ensure_connected()
-            return await self.crud.count(self.redis_client)
+            return await self.crud.thread_exists(self.redis_client, thread_id)
         except Exception as e:
-            logger.error(f"Failed to count agent states: {e}")
-            return 0
+            logger.error(f"Failed to check if thread {thread_id} exists: {e}")
+            return False
 
-    async def get_recent_agent_states(self, limit: int = 10) -> List[AgentStateRedis]:
-        """Get recent agent states ordered by last_updated"""
+    async def get_thread_count(self) -> int:
+        """Get total number of threads"""
         try:
             await self.ensure_connected()
-            return await self.crud.get_recent(self.redis_client, limit)
+            return await self.crud.get_thread_count(self.redis_client)
         except Exception as e:
-            logger.error(f"Failed to get recent agent states: {e}")
-            return []
-
-    async def cleanup_expired_agent_states(self, max_age_days: int = 30) -> int:
-        """Clean up expired agent states"""
-        try:
-            await self.ensure_connected()
-            return await self.crud.cleanup_expired(self.redis_client, max_age_days)
-        except Exception as e:
-            logger.error(f"Failed to cleanup expired agent states: {e}")
+            logger.error(f"Failed to count threads: {e}")
             return 0
 
 

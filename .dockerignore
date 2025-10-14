@@ -1,11 +1,13 @@
-__pycache__
+# Python
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.pyw
+*.pyz
 .Python
-env
-pip-log.txt
-pip-delete-this-directory.txt
+
+# Testing & Coverage
 .tox
 .coverage
 .coverage.*
@@ -13,19 +15,50 @@ pip-delete-this-directory.txt
 nosetests.xml
 coverage.xml
 *.cover
-*.log
-.git
 .mypy_cache
 .pytest_cache
 .hypothesis
-.DS_Store
+test/
+
+# Environment & Dependencies
 .env
 .venv
 venv/
 ENV/
 env/
+
+# Node/JavaScript
+node_modules/
+/node_modules
+/.pnp
+.pnp.js
+/coverage
+/build
+
+# Logs
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Data & Models
+*.csv
+*.parquet
+*.ipynb
+models/
+
+# Version Control
+.git
+
+# IDE & Editors
 .idea/
 .vscode/
+.cursorrules
 *.swp
 *.swo
 *~
+
+# OS
+.DS_Store

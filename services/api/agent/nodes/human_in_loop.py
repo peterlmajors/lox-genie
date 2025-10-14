@@ -1,4 +1,6 @@
-
+"""
+Human in the loop node for the agent
+"""
 from langchain_core.messages import HumanMessage
 from langgraph.types import interrupt
 
@@ -7,7 +9,7 @@ from services.api.agent.utils import count_messages
 
 def human_in_loop(state: AgentState) -> AgentState:
     """
-    This function asks the user to provide a relevant fantasy football question
+    This function asks the user to provide a relevant question
     based on the relevance reasoning AIMessage from the most recent message in the state.
 
     Args:

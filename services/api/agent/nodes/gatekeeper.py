@@ -1,14 +1,17 @@
+"""
+Gatekeeper node for the agent
+"""
 import os
 from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langgraph.graph import END
 
 from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, GatekeeperResponse
 from services.api.agent.utils import get_current_date, count_messages
 from services.api.agent.prompts.gatekeeper import prompt
-
+from services.api.utils.logger import logger
 
 def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     """
@@ -16,13 +19,14 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     1. Answer simple queries directly
     2. Route to the research planner
     3. Request clarification via human-in-the-loop
-    4. Handle off-topic conversations
     """
     
     # Initialize the model and LLM instance
-    model = Configuration.from_runnable_config(config).gatekeeper_agent_model
-    llm = ChatOllama(
-        model=model,
+    configuration = Configuration.from_runnable_config(config)
+    llm = ChatOpenAI(
+        base_url=os.getenv("LLM_BASE_URL"),
+        api_key="not-needed",  # llama.cpp doesn't require API key
+        model=configuration.gatekeeper_agent_model,
         temperature=0.3,
     )
     
@@ -30,7 +34,6 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     formatted_prompt = prompt.format(
         current_date=get_current_date(),
         tools="",
-        knowledge_base="",  # TODO: Add knowledge base content
         messages=state.messages[:-1],
         question=state.messages[-1].content,
     )
@@ -38,27 +41,28 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     # Run inference
     structured_llm = llm.with_structured_output(GatekeeperResponse)
     try:
-        result = structured_llm.invoke(formatted_prompt)       
+        result = structured_llm.invoke(formatted_prompt)
+        logger.info(f"Gatekeeper result: {result}")
     except Exception as e:
         print(f"Error in gatekeeper node: {e}")
         result = GatekeeperResponse(
             action="clarification_needed",
             response="I'm having trouble processing your request right now. Could you please rephrase your question?",
         )
+
+    # Update the state with the result
+    state.messages.append(AIMessage(content=result.response))
     
-    # Handle different actions
+    # Direct answers and research required are relevant
     if result.action in ["direct_answer", "research_required"]:
         state.messages[-1].additional_kwargs["relevant"] = True
-        state.messages.append(AIMessage(content=result.response))
-    elif result.action in ["clarification_needed", "off_topic"]:
+    elif result.action in ["clarification_needed"]:
         state.messages[-1].additional_kwargs["relevant"] = False
-        state.messages.append(AIMessage(content=result.response))
-        
+
     # Update the action type in the AI response and message count
     state.messages[-1].additional_kwargs["action"] = result.action
     state.message_counts = count_messages(state.messages)
     return state
-
 
 def after_gatekeeper(state: AgentState) -> str:
     """

@@ -8,6 +8,6 @@ export const questionPlaceholder = `• Should I trade Nico Collins for Derrick 
 export const usernamePlaceholder = "Sleeper username";
 
 // Feature text
-export const sleeperFeatureDescription = "Connect your leagues for tailored, actionable fantasy advice";
-export const nflDataFeatureDescription = "Player, team, and game statistics updated each and every day";
-export const xApiFeatureDescription = "Breaking news and injury updates from trusted sources";
+export const sleeperFeatureDescription = "Each query contains the context of your Sleeper leagues for tailored, actionable fantasy advice";
+export const nflDataFeatureDescription = "Connected to player, team, and game statistics";
+export const redditFeatureDescription = "Access to Reddit for additional context and community insights";

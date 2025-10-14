@@ -1,8 +1,9 @@
-# ==*.txt
+# === Data ===
 *.csv
 *.parquet
 *.ipynb
 
+# === Python ===
 __pycache__/
 *.pyc
 *.pyo
@@ -14,22 +15,33 @@ __pycache__/
 *.pyzwz
 *.ipynb
 
+# === Test ===
 test/
 
+# === Models ===
+models/
+
+# === Cursor ===
 .cursorrules
+
+# === Env ===
 .env
 
-# === Lox UI ===
+# === Node ===
 /node_modules
 
+# === PnP ===
 /.pnp
 .pnp.js
 
+# === Coverage ===
 /coverage
 /build
 
+# === OS ===
 .DS_Store
 
+# === NPM ===
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

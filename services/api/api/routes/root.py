@@ -17,8 +17,6 @@ async def root() -> JSONResponse:
             "environment": settings.ENV,
             "docs_url": "/docs",
             "openapi_url": "/openapi.json",
-            "health_check": "/genie/health",
-            "chat_endpoint": "/genie/chat",
-            "user_avatar_example": "/genie/user/avatar/{username}",
+            "health_check": "/genie/health"
         }
     )

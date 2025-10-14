@@ -1,18 +1,12 @@
 import os
-import sys
 import json
 from datetime import datetime, timezone
 from services.api.crud.aws_s3 import list_s3_files
 
-with open(
-    os.path.abspath(os.path.join(os.getcwd(), "../../..", "sources.json")), "r"
-) as f:
+with open(os.path.abspath(os.path.join(os.getcwd(), "../../..", "sources.json")), "r") as f:
     sources = json.load(f)
 
-
-def refresh_date_check(
-    data_source: str, sources: list[dict] = sources, verbose: bool = True
-) -> bool:
+def refresh_date_check(data_source: str, sources: list[dict] = sources, verbose: bool = True) -> bool:
     """
     Checks if the current date has passed the refresh date for a data source.
 
@@ -46,10 +40,7 @@ def refresh_date_check(
     else:
         return True
 
-
-def refresh_interval_check(
-    data_source: str, s3_bucket: str, file_name: str, sources: dict = sources
-) -> bool:
+def refresh_interval_check(data_source: str, s3_bucket: str, file_name: str, sources: dict = sources) -> bool:
     """
     Checks if the current date has passed the refresh interval for a data source.
 

@@ -1,4 +1,6 @@
-
+"""
+Configuration for the agent
+"""
 import os
 from pydantic import BaseModel, Field
 from langchain_core.runnables import RunnableConfig
@@ -7,19 +9,19 @@ from typing import Any, Optional
 class Configuration(BaseModel):
     """The configuration for the agent."""
     gatekeeper_agent_model: str = Field(
-        default="llama3.1:8b",
+        default="llama-3.2-3b-instruct",
         metadata={
             "description": "Language model used for agent gatekeeper assessment."
         },
     )
     planning_agent_model: str = Field(
-        default="gpt-oss:20b",
+        default="llama-3.2-3b-instruct",
         metadata={
             "description": "Language model used for agent planning."
         },
     )
     executor_model: str = Field(
-        default="llama3.1:8b",
+        default="llama-3.2-3b-instruct",
         metadata={
             "description": "Language model used for agent tool execution."
         },

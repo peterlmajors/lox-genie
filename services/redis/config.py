@@ -1,10 +1,8 @@
 """
 Configuration settings for Redis service
 """
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from typing import Optional
-
 
 class Settings(BaseSettings):
     """Redis service configuration settings"""
@@ -20,7 +18,7 @@ class Settings(BaseSettings):
     redis_ttl_seconds: int = 86400 * 30  # 30 days default TTL
 
     # Service settings
-    service_name: str = "lox-genie-redis"
+    service_name: str = "lox-redis"
     log_level: str = "INFO"
 
     # Cleanup settings

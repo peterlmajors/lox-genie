@@ -1,4 +1,5 @@
-version: '3.8'
+# Production deployment configuration (AWS with vLLM GPU)
+# Usage: docker-compose -f docker-compose-prod.yml up
 
 services:
   api:
@@ -14,13 +15,16 @@ services:
       - REDIS_DB=0
       - REDIS_KEY_PREFIX=thread
       - REDIS_TTL_SECONDS=2592000
+      - LLM_BASE_URL=http://vllm:8002/v1
     volumes:
       - ./services/api/core/config.py:/app/config/config.py
     networks:
       - lox-network
     depends_on:
       - redis
+      - vllm
     restart: unless-stopped
+
   mcp:
     build:
       context: .
@@ -38,6 +42,7 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
+
   ui:
     build:
       context: .
@@ -47,6 +52,7 @@ services:
     networks:
       - lox-network
     restart: unless-stopped
+
   redis:
     image: redis:7-alpine
     ports:
@@ -63,9 +69,40 @@ services:
       retries: 3
       start_period: 10s
 
+  vllm:
+    # vLLM with GPU acceleration for production
+    image: vllm/vllm-openai:latest
+    ports:
+      - "8002:8002"
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+    volumes:
+      - vllm_cache:/root/.cache/huggingface
+    networks:
+      - lox-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ipc: host
+    restart: unless-stopped
+    command:
+      - --model
+      - meta-llama/Llama-3.2-3B-Instruct
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8002"
+
 volumes:
   redis_data:
+  vllm_cache:
 
 networks:
   lox-network:
     driver: bridge
+

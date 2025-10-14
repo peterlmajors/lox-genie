@@ -30,14 +30,6 @@ Lox Genie is, fundamentally, a deep research agent which processes user queries 
 
 The agent is instructed to be maximally truth-seeking, providing resolute and non-ambiguous answers by blending its knowledge base with ground-up analysis.
 
-## 🏗️  Architecture
-
-- **FastAPI Service** (Port 8000): RESTful API with streaming chat capabilities
-- **MCP Server** (Port 8001): Model Context Protocol server for tool integration
-- **React Frontend** (Port 80): Serves chat interface and curated news feed
-- **LangGraph Agent**: Multi-node workflow orchestration for intelligent research
-- **Docker Support**: Containerized deployment with docker-compose
-
 ## 🛠️  Prerequisites
 
 - Python 3.11+
@@ -46,8 +38,98 @@ The agent is instructed to be maximally truth-seeking, providing resolute and no
 
 ## 🚀  Quick Start
 
-### Using Docker (Recommended)
+Get Lox Genie running locally on your Mac in 3 steps.
+
+### Prerequisites
+- Docker & Docker Compose
+- ~2GB free disk space
+- Mac (Intel or Apple Silicon)
+
+### Step 1: Download Model
+
+Download the GGUF model for llama.cpp (~2GB):
 
 ```bash
-# Start both services
-docker-compose up --build
+./scripts/setup-llama-model.sh
+```
+
+This downloads Llama 3.2 3B Instruct (Q4 quantized) optimized for Mac CPU.
+
+### Step 2: Start Services
+
+Start all services with llama.cpp for LLM inference:
+
+```bash
+docker-compose -f docker-compose-local.yml up
+```
+
+**First startup** takes 2-3 minutes to build images.
+
+### Step 3: Test
+
+Once running, test the LLM service:
+
+```bash
+# Health check
+curl http://localhost:8002/health
+
+# Chat completion
+curl -X POST http://localhost:8002/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "max_tokens": 50
+  }'
+```
+
+### 🎉 Services Running
+
+- **API**: http://localhost:8000
+- **MCP**: http://localhost:8001
+- **UI**: http://localhost
+- **LLM**: http://localhost:8002 (Llama 3.2 3B via llama.cpp)
+- **Redis**: localhost:6379
+
+## 🔧 Development
+
+### Local LLM (llama.cpp)
+- **Model**: Llama 3.2 3B Instruct (Q4_K_M quantized)
+- **Size**: ~2GB
+- **Performance**: 10-15 tokens/sec on Mac
+- **API**: OpenAI-compatible
+
+### Testing
+```bash
+# Install test dependencies
+uv sync
+
+# Test LLM endpoint
+python services/llm/test_llm.py
+
+# Test agent integration
+PYTHONPATH=. uv run python services/api/agent/test_integration.py
+```
+
+### View Logs
+```bash
+# All services
+docker-compose -f docker-compose-local.yml logs -f
+
+# Just LLM
+docker-compose -f docker-compose-local.yml logs -f llama
+```
+
+### Stop Services
+```bash
+docker-compose -f docker-compose-local.yml down
+```
+
+## ☁️ Production Deployment (AWS with GPU)
+
+```bash
+# Set HuggingFace token (required for Llama models)
+export HF_TOKEN=your_token_here
+
+# Start with vLLM GPU acceleration
+docker-compose -f docker-compose-prod.yml up
+```
