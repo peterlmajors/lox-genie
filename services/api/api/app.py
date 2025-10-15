@@ -12,6 +12,7 @@ from services.api.api.routes.health import router as health_router
 from services.api.api.routes.root import router as root_router
 from services.api.api.routes.thread import router as thread_router
 from services.api.api.routes.wish import router as wish_router
+from services.api.api.routes.youtube import router as youtube_router
 from services.api.core.config import settings
 from services.api.redis.client import startup_redis, shutdown_redis
 
@@ -72,5 +73,6 @@ app.include_router(chat_router, tags=["Chat"])
 app.include_router(wish_router, tags=["Wish"])
 app.include_router(thread_router, tags=["Thread"])
 app.include_router(user_router, tags=["User"])
+app.include_router(youtube_router, tags=["YouTube"])
 app.include_router(health_router, tags=["Health"])
 app.include_router(root_router, tags=["Root"])

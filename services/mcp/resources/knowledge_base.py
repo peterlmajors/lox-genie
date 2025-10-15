@@ -23,7 +23,6 @@ prompt = PromptTemplate(
         - PPG ADP expectation is the VORP expectation for a player at their Average Draft Position (ADP).
         </player_cost_analysis>
 
-        
         <team_building_strategy>
         - Zero-RB strategy: identify cheap RBs with contingent upside and monitor weekly shifts to capture value early.
         - Middle-round RB strategy: focus on ambiguous backfields where one back can consolidate; fade older, non-pass-catching profiles at mid costs.
@@ -52,6 +51,5 @@ prompt = PromptTemplate(
         - Talent is more important than situation because situation changes faster than talent appreciates or degrades
         - Each year, dynasty teams should either be building for the future or for the present - the worst place to be is stuck in the middle
         </dynasty_strategy>
-    """,
-    input_variables=["current_date"],
+    """
 )

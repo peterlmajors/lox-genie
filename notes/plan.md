@@ -1,15 +1,16 @@
 # === Development Plans ===
 
 Short Term
-- Get local serving of chat endpoint to agent to work
-- Integrate vllm to enhance local model inference times
+- Connect MCP functions to agent
+- Enable MCP tool calls to resources
+- Generate context for top k resources for gatekeeper
 - Build knowledge bases for all position classes and niches
 - Upload knowledge base to AWS S3 bucket as MCP resources
 - Deploy application to fleet of AWS EC2 instances
 - Improve context gathering within gatekeeper
 
 Medium Term
-- Build LLM pipeline to extract lessons from fantasy football YouTube channels 
+- ✓ Build LLM pipeline to extract lessons from fantasy football YouTube channels 
 - Find and structure organized outputs for as many NFL APIs as possible
 - Search for useful MCP servers we can use, instead of building custom
 - Store all chat histories in AWS Dynamo DB for quick relational use

@@ -36,4 +36,7 @@ dependencies = [
     "utils>=1.0.2",
     "uvicorn>=0.35.0",
     "webdriver-manager==4.0.1",
+    "youtube-transcript-api>=0.6.0",
+    "scrapetube>=2.5.1",
+    "langchain-community>=0.3.31",
 ]

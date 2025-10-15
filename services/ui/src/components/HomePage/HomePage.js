@@ -211,7 +211,7 @@ function HomePage() {
                 title={!additionalInput.trim() ? "Enter a Sleeper username first" : "Generate a random fantasy football question"}
               >
                 <span className="button-text">
-                  {isGeneratingWish ? 'Loading...' : 'Generate Wish'}
+                  {isGeneratingWish ? 'Pondering...' : 'Generate Wish'}
                 </span>
                 <span className="button-icon">🎲</span>
               </button>
