@@ -1,4 +1,0 @@
-"""
-Prompts for pipeline operations
-"""
-
