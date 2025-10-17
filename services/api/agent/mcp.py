@@ -8,7 +8,7 @@ from fastmcp.client import Client
 # MCP configuration
 config = {
     "lox-mcp": {
-        "url": f"{os.getenv('HOSTNAME', 'http://localhost')}{os.getenv('LLM_SERVICE_PORT', '8002')}",
+        "url": f"http://localhost:8001/mcp",
         "transport": "http",
     }
 }
@@ -17,7 +17,7 @@ config = {
 client = Client(config)
 
 # Get gatekeeper resources
-gatekeeper_resources = [resource for resource in client.resources() if resource.name.startswith("gatekeeper")]
+gatekeeper_resources = [resource for resource in client.resources()]
 
 # Get executor tools
 executor_tools = [tool for tool in client.tools() if tool.name.startswith("executor")]

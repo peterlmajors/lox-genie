@@ -21,9 +21,10 @@ builder.add_node("executor", executor)
 
 # Edges
 builder.add_edge(START, "gatekeeper")
-builder.add_conditional_edges("gatekeeper", after_gatekeeper)
-builder.add_edge("human_in_loop", "gatekeeper")
-builder.add_edge("planner", "executor")
-builder.add_edge("executor", END)
+# builder.add_conditional_edges("gatekeeper", after_gatekeeper)
+# builder.add_edge("human_in_loop", "gatekeeper")
+# builder.add_edge("planner", "executor")
+# builder.add_edge("executor", END)
+builder.add_edge("gatekeeper", END)
 
 graph = builder.compile(name="lox-genie-agent")

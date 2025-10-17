@@ -1,16 +1,16 @@
-from langchain_core.prompts import PromptTemplate
 
-prompt = PromptTemplate(
-    template="""
-        # NFL Season Context:
-        - We are in week {week} of the NFL season.
+# from services.mcp.main import mcp
 
-        # General Approach:
-        - Managing a fantasy football team is a test of skill, dedication, and ultimately, luck.
+# @mcp.resource("data://general")
+# def general() -> str:
+#     """Provides general fantasy football advice and context: """
+#     return """
+#         # NFL Season Context:
+#         - We are in week {week} of the NFL season.
 
-        # Separating Real Football from Fantasy Football:
-        - ...
+#         # General Approach:
+#         - Managing a fantasy football team is a test of skill, dedication, and ultimately, luck.
 
-        """,
-    input_variables=["week"],
-)
+#         # Separating Real Football from Fantasy Football:
+#         - ...
+#     """

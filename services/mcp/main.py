@@ -9,7 +9,14 @@ from services.mcp.tools.sleeper_team import get_user_roster, get_user_record, ge
 from services.mcp.tools.sleeper_user import get_nfl_leagues_user_metadata, get_current_league_records, get_previous_league_records
 # from services.mcp.tools.reddit import reddit_search
 
-from services.mcp.resources.quarterbacks import quarterbacks
+# from services.mcp.resources.quarterbacks import quarterback_strategy
+# from services.mcp.resources.runningbacks import runningback_strategy
+# from services.mcp.resources.widerecievers import wide_reciever_strategy
+# from services.mcp.resources.tightends import tightend_strategy
+# from services.mcp.resources.kickers import kicker_strategy
+# from services.mcp.resources.defense import defense_strategy
+# from services.mcp.resources.psychology import psychology
+# from services.mcp.resources.terminology import terminology
 
 mcp_tools = [
     get_all_draft_picks_metadata,
@@ -25,24 +32,30 @@ mcp_tools = [
     # reddit_search
 ]
 
-mcp_resources = [
-    quarterbacks,
-    # "data://runningbacks",
-    # "data://wide_receivers",
-    # "data://tight_ends",
-    # "data://kickers",
-    # "data://defense",
-    # "data://special_teams",
-]
+# mcp_resources = [
+#     quarterback_strategy,
+#     runningback_strategy,
+#     wide_reciever_strategy,
+#     kicker_strategy,
+#     defense_strategy,
+#     psychology,
+#     terminology,
+# ]
 
 mcp = FastMCP(
     name = "lox-mcp",
     tools = mcp_tools
 )
 
+@mcp.resource("data://{name}")
+def resource(name: str) -> str:
+    """Provides the resource content."""
+    with open(f"services/mcp/resources/{name}.md", "r") as file:
+        return file.read()
+
 @mcp.custom_route("/health", methods=["GET"])
 async def health_check(request: Request) -> PlainTextResponse:
     return PlainTextResponse("OK")
 
 if __name__ == "__main__":
-    mcp.run(transport="http", host="0.0.0.0", port=8001)
+    mcp.run(transport="http", host="0.0.0.0", port=8001, path="/mcp")
