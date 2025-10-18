@@ -16,6 +16,11 @@ services:
       - REDIS_KEY_PREFIX=thread
       - REDIS_TTL_SECONDS=2592000
       - LLM_BASE_URL=http://llama:8002/v1
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USERNAME=admin
+      - MONGODB_PASSWORD=password
+      - MONGODB_DATABASE=lox-sleeper
     volumes:
       - ./services/api:/app/services/api  # Hot reload: mount API source code
       - ./pyproject.toml:/app/pyproject.toml
@@ -24,6 +29,7 @@ services:
       - lox-network
     depends_on:
       - redis
+      - mongodb
       - llama
     restart: unless-stopped
     command: ["uv", "run", "uvicorn", "services.api.api.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
@@ -47,6 +53,11 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   ui:
     image: node:22-alpine  # Use Node directly for dev mode
@@ -81,6 +92,29 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  mongodb:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - lox-network
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=admin
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   llama:
     # llama.cpp server for efficient Mac CPU inference
@@ -119,12 +153,14 @@ services:
     ports:
       - "6274:6274"
       - "6277:6277"
+    environment:
+      - MCP_DISABLE_AUTH=true
     restart: unless-stopped
-    depends_on:
-      - mcp
 
 volumes:
   redis_data:
+  mongodb_data:
+  mongodb_config:
 
 networks:
   lox-network:

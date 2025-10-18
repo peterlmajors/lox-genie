@@ -1,0 +1,13 @@
+FROM mongo:7.0
+
+# Create MongoDB data directory
+RUN mkdir -p /data/db /data/configdb
+
+# Copy custom MongoDB configuration if needed
+# COPY mongod.conf /etc/mongod.conf
+
+# Expose MongoDB port
+EXPOSE 27017
+
+# Start MongoDB
+CMD ["mongod", "--bind_ip_all"]

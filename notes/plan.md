@@ -1,11 +1,11 @@
 # === Development Plans ===
 
 Short Term
-- Connect MCP functions to agent
-- Enable MCP tool calls to resources
+- Configure MCP resources and tools
+- Connect Mongo to Pipelines
+- Connect Mongo to MCP tools
 - Generate context for top k resources for gatekeeper
 - Build knowledge bases for all position classes and niches
-- Upload knowledge base to AWS S3 bucket as MCP resources
 - Deploy application to fleet of AWS EC2 instances
 - Improve context gathering within gatekeeper
 

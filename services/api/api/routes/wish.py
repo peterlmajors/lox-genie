@@ -30,7 +30,7 @@ async def generate_wish() -> dict:
 
         # Initialize LLM
         llm = ChatOpenAI(
-            base_url=os.getenv("LLM_BASE_URL"),
+            base_url=settings.LLM_BASE_URL,
             api_key="not-needed",
             model=config.gatekeeper_agent_model,
             temperature=0.9,

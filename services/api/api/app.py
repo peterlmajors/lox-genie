@@ -13,8 +13,11 @@ from services.api.api.routes.root import router as root_router
 from services.api.api.routes.thread import router as thread_router
 from services.api.api.routes.wish import router as wish_router
 from services.api.api.routes.youtube import router as youtube_router
-from services.api.core.config import settings
+from services.api.api.routes.sleeper import router as sleeper_router
+from services.api.api.routes.nfl_players import router as nfl_players_router
 from services.api.redis.client import startup_redis, shutdown_redis
+from services.api.crud.mongodb import mongodb_client
+from services.api.core.config import settings
 
 # Configure logging
 logging.basicConfig(level=getattr(logging, settings.LOG_LEVEL))
@@ -28,16 +31,18 @@ async def lifespan(app: FastAPI):
     
     # Startup
     await startup_redis()
+    await mongodb_client.connect()
+    logger.info("MongoDB connected successfully")
     yield
     
     # Shutdown
     await shutdown_redis()
+    await mongodb_client.disconnect()
     logger.info(f"Shutting down {settings.NAME}")
 
 # Initialize FastAPI app with lifespan
 app = FastAPI(
     title=settings.NAME,
-    description=settings.DESCRIPTION,
     version=settings.VERSION,
     lifespan=lifespan,
     debug=settings.DEBUG,
@@ -73,6 +78,8 @@ app.include_router(chat_router, tags=["Chat"])
 app.include_router(wish_router, tags=["Wish"])
 app.include_router(thread_router, tags=["Thread"])
 app.include_router(user_router, tags=["User"])
+app.include_router(sleeper_router, tags=["Sleeper"])
+app.include_router(nfl_players_router, tags=["NFL Players"])
 app.include_router(youtube_router, tags=["YouTube"])
 app.include_router(health_router, tags=["Health"])
 app.include_router(root_router, tags=["Root"])

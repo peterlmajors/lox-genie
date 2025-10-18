@@ -334,59 +334,6 @@ def get_all_draft_picks(draft_id):
         else:
             raise Exception(f"Failed to fetch draft picks from draft {draft_id}: {response.status_code}")
 
-def get_nfl_players():
-    """
-    Args:
-        - None
-    Returns:
-        - A dictionary of player IDs and their metadata.
-    Example:
-    {
-        "3086": {
-            "hashtag": "#TomBrady-NFL-NE-12",
-            "depth_chart_position": 1,
-            "status": "Active",
-            "sport": "nfl",
-            "fantasy_positions": ["QB"],
-            "number": 12,
-            "search_last_name": "brady",
-            "injury_start_date": null,
-            "weight": "220",
-            "position": "QB",
-            "practice_participation": null,
-            "sportradar_id": "",
-            "team": "NE",
-            "last_name": "Brady",
-            "college": "Michigan",
-            "fantasy_data_id":17836,
-            "injury_status":null,
-            "player_id":"3086",
-            "height": "6'4\"",
-            "search_full_name": "tombrady",
-            "age": 40,
-            "stats_id": "",
-            "birth_country": "United States",
-            "espn_id": "",
-            "search_rank": 24,
-            "first_name": "Tom",
-            "depth_chart_order": 1,
-            "years_exp": 14,
-            "rotowire_id": null,
-            "rotoworld_id": 8356,
-            "search_first_name": "tom",
-            "yahoo_id": null
-        },
-        ...
-    }
-    """
-    url = f"{sleeper_api_url}/players/nfl"
-    with httpx.Client() as client:
-        response = client.get(url)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise Exception(f"Failed to fetch players: {response.status_code}")
-
 def get_trending_players(type: str, hours: int = 24, limit: int = 50):
     """
     Args:

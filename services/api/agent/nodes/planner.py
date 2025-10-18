@@ -6,6 +6,7 @@ from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, PlanResponse
 from services.api.agent.utils import get_current_date, count_messages
 from services.api.agent.prompts.planner import prompt
+from services.api.core.config import settings
 
 def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     """LangGraph node which plans the trajectory of the agent."""
@@ -13,7 +14,7 @@ def planner(state: AgentState, config: RunnableConfig) -> AgentState:
     # Initialize the planning model and LLM instance
     configuration = Configuration.from_runnable_config(config)
     llm = ChatOpenAI(
-        base_url=os.getenv("LLM_BASE_URL"),
+        base_url=settings.LLM_BASE_URL,
         api_key="not-needed",  # llama.cpp doesn't require API key
         model=configuration.planning_agent_model,
         temperature=0.3,
