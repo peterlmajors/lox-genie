@@ -160,7 +160,7 @@ function HomePage() {
         // Try to verify username first
         const isValid = await handleVerifyUsername();
         if (!isValid) {
-          setUsernameError('Please enter a valid Sleeper username before generating a wish');
+          setUsernameError('Please enter a valid Sleeper username.');
           return;
         }
       }
