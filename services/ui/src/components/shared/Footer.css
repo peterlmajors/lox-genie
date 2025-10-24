@@ -3,38 +3,40 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #1f1a15;
+  background: #1a0f0a;
   z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  border-top: 3px solid #ff6b1a;
 }
 
 .footer-content {
   padding: 0.75rem 2rem;
   overflow: hidden;
   position: relative;
+  background: #1a0f0a;
 }
 
 .footer-text {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'Inter', sans-serif;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 1px 1px 0px #8b4513;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .footer-item {
   flex: 1;
   text-align: center;
   padding: 0 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 3px solid #666666;
 }
 
 .footer-item:last-child {
@@ -48,7 +50,11 @@
   }
   
   .footer-text {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+  }
+  
+  .footer-item {
+    border-right: 2px solid #666666;
   }
 }
 
@@ -58,6 +64,6 @@
   }
   
   .footer-text {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 }
