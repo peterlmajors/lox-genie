@@ -108,7 +108,7 @@ export const checkHealth = async () => {
  */
 export const verifySleeperUsername = async (username) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/user/${username}`, {
+    const response = await fetch(`${API_BASE_URL}/users/${username}`, {
       method: 'GET',
     });
     
@@ -142,7 +142,7 @@ export const verifySleeperUsername = async (username) => {
  */
 export const fetchUserAvatar = async (username) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/user/avatar/${username}`, {
+    const response = await fetch(`${API_BASE_URL}/users/avatar/${username}`, {
       method: 'GET',
     });
     
@@ -174,7 +174,7 @@ export const fetchUserAvatar = async (username) => {
  */
 export const generateWish = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/generate-wish`, {
+      const response = await fetch(`${API_BASE_URL}/wish/generate`, {
       method: 'POST',
     });
     

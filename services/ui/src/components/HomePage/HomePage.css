@@ -53,10 +53,12 @@
   font-size: 0.9rem;
   color: #cccccc;
   margin: 0;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 0.25em;
   text-shadow: 2px 2px 0px #666666;
   text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .question-form {
@@ -77,22 +79,28 @@
   height: auto !important;
   max-height: 200px;
   font-size: 0.8rem !important;
-  line-height: 1.6;
+  line-height: 1.8;
   padding: 1.2rem !important;
   border: 6px solid #ff6b1a !important;
   background: #1a0f0a !important;
   color: #ffffff !important;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
   border-radius: 0 !important;
   box-shadow: 8px 8px 0px #8b4513 !important;
   transition: none !important;
   resize: vertical;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .question-textarea::placeholder {
   color: rgba(204, 204, 204, 0.5);
   font-style: normal;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .question-textarea:hover {
@@ -131,9 +139,13 @@
   color: #ffffff;
   font-size: 0.7rem;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
   border-radius: 0;
   transition: none;
   box-shadow: 6px 6px 0px #666666;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .sleeper-username.error {
@@ -151,6 +163,8 @@
   color: rgba(204, 204, 204, 0.5);
   font-style: normal;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .sleeper-username:hover {
@@ -233,7 +247,7 @@
   padding: 1rem 2rem;
   border-radius: 0;
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 300;
   color: #fff;
   cursor: pointer;
   font-family: 'Press Start 2P', monospace;
@@ -246,6 +260,8 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   transition: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .genie-button:hover:not(:disabled) {
@@ -282,7 +298,7 @@
   padding: 1rem 1.8rem;
   border-radius: 0;
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 300;
   color: #000;
   cursor: pointer;
   font-family: 'Press Start 2P', monospace;
@@ -295,6 +311,8 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   transition: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .wish-button:hover:not(:disabled) {
@@ -384,23 +402,28 @@
 
 .feature-text {
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 300;
   color: #ff6b1a;
   text-align: center;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 1px 1px 0px #8b4513;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .feature-description {
   font-size: 0.6rem;
   color: #cccccc;
   text-align: center;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-top: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app-summary {
@@ -419,10 +442,12 @@
   text-align: center;
   line-height: 1.8;
   margin: 0;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   letter-spacing: 0.05em;
   text-shadow: 1px 1px 0px #666666;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Animations */

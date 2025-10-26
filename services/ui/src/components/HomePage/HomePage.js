@@ -27,7 +27,7 @@ function HomePage() {
     const messageTimeoutRef = useRef(null);
     const fadeTimeoutRef = useRef(null);
   
-    // Auto-fade messages after 5 seconds
+    // Auto-fade error messages after 5 seconds
     useEffect(() => {
       // Clear existing timeouts
       if (messageTimeoutRef.current) {
@@ -37,8 +37,8 @@ function HomePage() {
         clearTimeout(fadeTimeoutRef.current);
       }
 
-      // If there's an error or success message, start fade timer
-      if (usernameError || isUsernameValid) {
+      // If there's an error message, start fade timer
+      if (usernameError) {
         setIsFadingOut(false);
         
         // Start fade-out after 4.5 seconds
@@ -49,7 +49,6 @@ function HomePage() {
         // Clear message completely after 5 seconds
         fadeTimeoutRef.current = setTimeout(() => {
           setUsernameError('');
-          setIsUsernameValid(false);
           setIsFadingOut(false);
         }, 5000);
       }
@@ -63,7 +62,7 @@ function HomePage() {
           clearTimeout(fadeTimeoutRef.current);
         }
       };
-    }, [usernameError, isUsernameValid]);
+    }, [usernameError]);
 
     // Handle submit
     const handleSubmit = async (e) => {
@@ -218,16 +217,13 @@ function HomePage() {
               <div className="username-input-wrapper">
                 <input
                   type="text"
-                  className={`sleeper-username ${usernameError ? 'error' : ''} ${isUsernameValid && !usernameError ? 'valid' : ''}`}
+                  className={`sleeper-username ${usernameError ? 'error' : ''}`}
                   placeholder={usernamePlaceholder}
                   value={additionalInput}
                   onChange={handleUsernameChange}
                 />
                 {usernameError && (
                   <div className={`username-error ${isFadingOut ? 'fade-out' : ''}`}>{usernameError}</div>
-                )}
-                {isUsernameValid && !usernameError && (
-                  <div className={`username-success ${isFadingOut ? 'fade-out' : ''}`}>✓ Username verified</div>
                 )}
               </div>
               <button 

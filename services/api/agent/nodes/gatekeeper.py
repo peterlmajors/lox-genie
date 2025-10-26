@@ -1,18 +1,16 @@
 """
 Gatekeeper node for the agent
 """
-import os
-from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END
 
 from services.api.agent.config import Configuration
 from services.api.agent.schemas import AgentState, GatekeeperResponse
-from services.api.agent.utils import get_current_date, count_messages
+from services.api.agent.utils import get_current_date, update_state, get_mcp_tools_formatted
 from services.api.agent.prompts.gatekeeper import prompt
-from services.api.utils.logger import logger
 from services.api.core.config import settings
+from services.api.utils.logger import logger
 
 def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
     """
@@ -28,41 +26,30 @@ def gatekeeper(state: AgentState, config: RunnableConfig) -> AgentState:
         base_url=settings.LLM_BASE_URL,
         api_key="not-needed",  # llama.cpp doesn't require API key
         model=configuration.gatekeeper_agent_model,
-        temperature=0.3,
+        temperature=0.7
     )
-    
+
     # Format the prompt
     formatted_prompt = prompt.format(
         current_date=get_current_date(),
-        tools="",
+        tools=get_mcp_tools_formatted(),
         messages=state.messages[:-1],
         question=state.messages[-1].content,
     )
 
-    # Run inference
-    structured_llm = llm.with_structured_output(GatekeeperResponse)
+    # Invoke the LLM and parse the JSON response
+    result = None
     try:
+        # Create structured LLM, invoke the endpoint, and update state
+        structured_llm = llm.with_structured_output(GatekeeperResponse) 
         result = structured_llm.invoke(formatted_prompt)
-        logger.info(f"Gatekeeper result: {result}")
+        state = update_state(state, result, "gatekeeper")
     except Exception as e:
-        print(f"Error in gatekeeper node: {e}")
+        logger.error(f"Error in gatekeeper node: {type(e).__name__}: {str(e)}", exc_info=True)
         result = GatekeeperResponse(
             action="clarification_needed",
             response="I'm having trouble processing your request right now. Could you please rephrase your question?",
         )
-
-    # Update the state with the result
-    state.messages.append(AIMessage(content=result.response))
-    
-    # Direct answers and research required are relevant
-    if result.action in ["direct_answer", "research_required"]:
-        state.messages[-1].additional_kwargs["relevant"] = True
-    elif result.action in ["clarification_needed"]:
-        state.messages[-1].additional_kwargs["relevant"] = False
-
-    # Update the action type in the AI response and message count
-    state.messages[-1].additional_kwargs["action"] = result.action
-    state.message_counts = count_messages(state.messages)
     return state
 
 def after_gatekeeper(state: AgentState) -> str:

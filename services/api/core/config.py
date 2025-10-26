@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     # LLM
     LLM_BASE_URL: str = "http://llama:8002"
 
+    # MCP
+    MCP_BASE_URL: str = "http://mcp:8001"
+
     # MongoDB
     MONGODB_HOST: str = "mongodb"
     MONGODB_PORT: int = 27017

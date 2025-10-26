@@ -10,10 +10,9 @@ from services.api.schemas.youtube import YouTubeSummarizerRequest, YouTubeSummar
 from services.api.pipelines.youtube_summarizer import summarize_youtube_channel
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/youtube")
 
-
-@router.post("/youtube/summarize-channel", response_model=YouTubeSummarizerResponse)
+@router.post("/summarize-channel", response_model=YouTubeSummarizerResponse)
 async def youtube_summarize_channel(request: YouTubeSummarizerRequest) -> YouTubeSummarizerResponse:
     try:
         logger.info(f"Received YouTube summarizer request for: {request.channel_url}")

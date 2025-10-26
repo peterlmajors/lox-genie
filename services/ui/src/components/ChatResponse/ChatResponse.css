@@ -83,28 +83,37 @@
 .username-display {
   color: #cccccc;
   font-size: 0.6rem;
-  font-weight: 400;
+  font-weight: 300;
   margin-left: 0.5rem;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 1px 1px 0px #666666;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .question-label {
   color: #ff6b1a;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 1px 1px 0px #8b4513;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .question-display h3 {
   color: #ff6b1a;
   margin: 0 0 1rem 0;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 1px 1px 0px #8b4513;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .question-text {
@@ -117,6 +126,10 @@
   overflow-wrap: break-word;
   hyphens: auto;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .genie-response {
@@ -162,10 +175,13 @@
   color: #ff6b1a;
   margin: 0;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 2px 2px 0px #8b4513;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .response-content {
@@ -178,13 +194,16 @@
   font-size: 0.7rem;
   line-height: 1.8;
   margin: 0 0 1rem 0;
-  font-weight: 400;
+  font-weight: 300;
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
   font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Markdown Styles */
@@ -196,11 +215,14 @@
 .response-content h6 {
   color: #ff6b1a;
   margin: 1.5rem 0 1rem 0;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.5;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 2px 2px 0px #8b4513;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .response-content h1 {
@@ -237,11 +259,14 @@
   margin: 1rem 0;
   padding-left: 2rem;
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .response-content li {
   margin: 0.8rem 0;
   line-height: 1.8;
+  font-weight: 300;
 }
 
 .response-content strong,
@@ -365,10 +390,13 @@
   padding: 1rem;
   color: #ff6b1a;
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   animation: pixelPulse 2s steps(4) infinite;
   text-shadow: 1px 1px 0px #8b4513;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @keyframes pixelPulse {
@@ -413,10 +441,13 @@
   color: #ff6b1a;
   margin: 0;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: 'Press Start 2P', monospace;
   text-shadow: 1px 1px 0px #8b4513;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .chat-icon {
@@ -455,7 +486,11 @@
   border: 4px solid;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.6rem;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .user-message .message-content {
@@ -474,9 +509,11 @@
 
 .message-text {
   font-size: 0.6rem;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 0.5rem;
   word-wrap: break-word;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .message-time {
@@ -539,11 +576,17 @@
   font-size: 0.7rem;
   font-family: 'Press Start 2P', monospace;
   transition: none;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .chat-input::placeholder {
   color: rgba(204, 204, 204, 0.5);
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .chat-input:focus {
@@ -621,11 +664,17 @@
   font-size: 0.7rem;
   font-family: 'Press Start 2P', monospace;
   transition: none;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .simple-chat-input::placeholder {
   color: rgba(204, 204, 204, 0.5);
   font-family: 'Press Start 2P', monospace;
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 .simple-chat-input:focus {

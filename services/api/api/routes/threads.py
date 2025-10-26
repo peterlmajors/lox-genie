@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from services.api.redis.client import get_redis_client, RedisClient
 from services.api.utils.logger import logger
 
-router = APIRouter()
+router = APIRouter(prefix="/threads")
 
 
-@router.get("/threads/{thread_id}")
+@router.get("/{thread_id}")
 async def get_thread_by_id(thread_id: str, redis_client: RedisClient = Depends(get_redis_client)) -> dict:
     """
     Retrieve a thread by its thread_id from Redis.
@@ -28,7 +28,7 @@ async def get_thread_by_id(thread_id: str, redis_client: RedisClient = Depends(g
     }
 
 
-@router.get("/threads")
+@router.get("/active")
 async def list_active_threads(redis_client: RedisClient = Depends(get_redis_client)) -> dict:
     """
     List all active thread IDs from Redis.
@@ -38,7 +38,7 @@ async def list_active_threads(redis_client: RedisClient = Depends(get_redis_clie
     return {"thread_ids": thread_ids, "count": len(thread_ids)}
 
 
-@router.delete("/threads/{thread_id}")
+@router.delete("/{thread_id}")
 async def delete_thread(thread_id: str, redis_client: RedisClient = Depends(get_redis_client)) -> dict:
     """
     Delete a thread by its thread_id from Redis.
@@ -48,8 +48,8 @@ async def delete_thread(thread_id: str, redis_client: RedisClient = Depends(get_
     return {"success": True, "thread_id": thread_id}
 
 
-@router.delete("/threads")
-async def delete_all_threads(redis_client: RedisClient = Depends(get_redis_client)) -> dict:
+@router.delete("/active")
+async def delete_all_active_threads(redis_client: RedisClient = Depends(get_redis_client)) -> dict:
     """
     Delete all threads from Redis.
     """

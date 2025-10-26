@@ -1,16 +1,13 @@
 from fastapi import APIRouter, HTTPException, Query
 from typing import Any
-from services.api.crud.mongodb import get_mongodb
+from services.api.crud.mongodb import get_mongodb, MongoDBClient
 from fastapi import Depends
 from rapidfuzz import process, fuzz
 
-router = APIRouter()
+router = APIRouter(prefix="/nfl_players")
 
-@router.get("/nfl_players/search", summary="Find the closest matching NFL player by name")
-async def search_nfl_player(
-    name: str = Query(..., description="The name to search for"),
-    client = Depends(get_mongodb)
-) -> dict:
+@router.get("/search", summary="Find the closest matching NFL player by name")
+async def search_nfl_player(name: str, client: MongoDBClient = Depends(get_mongodb)) -> dict:
     """
     Find the closest match to a player's full_name in the MongoDB players collection.
 
@@ -22,6 +19,7 @@ async def search_nfl_player(
     """
     collection = client.get_collection("players")
     cursor = collection.find({}, {"full_name": 1})
+
     names = []
     name_to_doc = {}
     async for doc in cursor:

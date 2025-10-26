@@ -5,9 +5,9 @@ from services.api.pipelines.sleeper import get_nfl_players
 from services.api.crud.mongodb import get_mongodb
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/sleeper")
 
-@router.post("/sleeper/fantasy-players-upload", summary="Upload complete list of fantasy players to MongoDB")
+@router.post("/fantasy-players-upload", summary="Upload complete list of fantasy players to MongoDB")
 async def fantasy_players_upload() -> dict:
     """
     Returns: 

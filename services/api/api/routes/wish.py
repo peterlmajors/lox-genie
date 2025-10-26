@@ -1,21 +1,19 @@
 """
 Generate a creative fantasy football question using LLM.
 """
-import os
 import logging
 from fastapi import APIRouter, HTTPException
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage
-
 from services.api.agent.config import Configuration
 from services.api.agent.utils import get_current_date
 from services.api.agent.prompts.wish import prompt
+from services.api.core.config import settings
 
 logger = logging.getLogger(__name__)
+router = APIRouter(prefix="/wish")
 
-router = APIRouter()
-
-@router.post("/generate-wish")
+@router.post("/generate")
 async def generate_wish() -> dict:
     """
     Generate a creative fantasy football question using LLM.
@@ -32,13 +30,14 @@ async def generate_wish() -> dict:
         llm = ChatOpenAI(
             base_url=settings.LLM_BASE_URL,
             api_key="not-needed",
-            model=config.gatekeeper_agent_model,
-            temperature=0.9,
-            max_tokens=150,
+            model=config.wish_generator_model,
+            temperature=0.7,
+            max_tokens=100,
         )
         
         # Format the prompt
-        messages = [SystemMessage(content=prompt.format(current_date=get_current_date()))]
+        formatted_prompt = prompt.format(current_date=get_current_date())
+        messages = [SystemMessage(content=formatted_prompt)]
         
         # Invoke the LLM asynchronously
         response = await llm.ainvoke(messages)
@@ -51,7 +50,6 @@ async def generate_wish() -> dict:
             generated_question = generated_question[1:-1]
         
         logger.info(f"Generated wish: {generated_question}")
-        
         return {"question": generated_question}
     
     except Exception as exc:

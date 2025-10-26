@@ -6,10 +6,6 @@ prompt = PromptTemplate(
         You are an expert in selecting the appropriate tool and parameters to execute a task, then executing the tool.
         <role>
 
-        <task>
-        Select the appropriate tool and parameters to execute the task, then execute the tool.
-        </task>
-
         <context>
         Today's date is {current_date}.
         </context>

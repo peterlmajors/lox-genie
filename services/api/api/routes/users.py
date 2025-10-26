@@ -2,10 +2,10 @@ import httpx
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response, JSONResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/users")
 
-@router.get("/user/avatar/{username}")
-async def fetch_avatar(username: str) -> Response:
+@router.get("/avatar/{username}")
+async def fetch_avatar_image(username: str) -> Response:
     """
     Fetch avatar image from SleeperCDN.
     Args:
@@ -40,8 +40,8 @@ async def fetch_avatar(username: str) -> Response:
         except httpx.RequestError as e:
             raise HTTPException(status_code=503, detail=f"Failed to connect to Sleeper API: {str(e)}")
 
-@router.get("/user/{username}")
-async def fetch_user(username: str) -> JSONResponse:
+@router.get("/{username}")
+async def fetch_user_metadata(username: str) -> JSONResponse:
     """
     Fetch user metadata from Sleeper.
     Args:

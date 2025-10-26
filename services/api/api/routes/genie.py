@@ -10,10 +10,9 @@ from services.api.redis.client import get_redis_client, RedisClient
 from services.api.redis.agent_state import AgentStateRedis
 
 logger = logging.getLogger(__name__)
+router = APIRouter(prefix="/genie")
 
-router = APIRouter()
-
-@router.post("/genie")
+@router.post("/")
 async def lox_genie(message: str, thread_id: str | None = None, redis_client: RedisClient = Depends(get_redis_client)) -> dict:
     """
     Chat with the Lox Genie.

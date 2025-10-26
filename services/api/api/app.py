@@ -6,15 +6,16 @@ from contextlib import asynccontextmanager
 import logging
 import time
 
-from services.api.api.routes.chat import router as chat_router
-from services.api.api.routes.user import router as user_router
+from services.api.api.routes.genie import router as genie_router
+from services.api.api.routes.users import router as user_router
 from services.api.api.routes.health import router as health_router
 from services.api.api.routes.root import router as root_router
-from services.api.api.routes.thread import router as thread_router
+from services.api.api.routes.threads import router as thread_router
 from services.api.api.routes.wish import router as wish_router
 from services.api.api.routes.youtube import router as youtube_router
 from services.api.api.routes.sleeper import router as sleeper_router
 from services.api.api.routes.nfl_players import router as nfl_players_router
+from services.api.api.routes.agents import router as agents_router
 from services.api.redis.client import startup_redis, shutdown_redis
 from services.api.crud.mongodb import mongodb_client
 from services.api.core.config import settings
@@ -74,9 +75,10 @@ async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 # Include API routes
-app.include_router(chat_router, tags=["Chat"])
+app.include_router(genie_router, tags=["Genie"])
 app.include_router(wish_router, tags=["Wish"])
-app.include_router(thread_router, tags=["Thread"])
+app.include_router(agents_router, tags=["Agents"])
+app.include_router(thread_router, tags=["Threads"])
 app.include_router(user_router, tags=["User"])
 app.include_router(sleeper_router, tags=["Sleeper"])
 app.include_router(nfl_players_router, tags=["NFL Players"])
