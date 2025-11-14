@@ -16,8 +16,7 @@ def get_current_date() -> str:
     return datetime.utcnow().strftime("%B %d, %Y %H:%M UTC")
 
 def count_messages(messages: List[Union[HumanMessage, AIMessage]]) -> MessageCounts:
-    """Count of messages from the state."""
-        
+    """Count the number of human and AI messages in the state."""
     return MessageCounts(
         total=len(messages),
         user=sum(1 for message in messages if isinstance(message, HumanMessage)),
@@ -25,8 +24,9 @@ def count_messages(messages: List[Union[HumanMessage, AIMessage]]) -> MessageCou
     )
 
 def update_state(state: AgentState, result: Union[GatekeeperResponse, PlanResponse, ToolExecutorResponse], agent: Literal["gatekeeper", "planner", "executor"]) -> AgentState:
-
-    # Update the state based on the agent
+    """
+    Update the state based on the agent.
+    """
     if agent == "gatekeeper":
         # Add message
         state.messages.append(AIMessage(content=result.response))
@@ -90,4 +90,4 @@ def get_mcp_tools_formatted() -> str:
         description = getattr(tool, 'description', 'No description')
         tool_descriptions.append(f"- {name}: {description}")
     
-    return "\n".join(tool_descriptions)
+    return "\n".join(tool_descriptions)0

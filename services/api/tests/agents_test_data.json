@@ -1,0 +1,139 @@
+{
+  "gatekeeper": [
+    {
+      "name": "fantasy_football_question",
+      "input": {
+        "message": "Who should I start this week, Justin Jefferson or Stefon Diggs?",
+        "thread_id": "test-thread-gatekeeper-001"
+      },
+      "expected": {
+        "has_response": true,
+        "has_action": true,
+        "has_relevant": true
+      }
+    },
+    {
+      "name": "greeting",
+      "input": {
+        "message": "Hello! How are you?",
+        "thread_id": "test-thread-gatekeeper-002"
+      },
+      "expected": {
+        "has_response": true,
+        "has_action": true,
+        "has_relevant": true
+      }
+    },
+    {
+      "name": "off_topic_question",
+      "input": {
+        "message": "What's the weather like today?",
+        "thread_id": "test-thread-gatekeeper-003"
+      },
+      "expected": {
+        "has_response": true,
+        "has_action": true,
+        "has_relevant": true
+      }
+    },
+    {
+      "name": "complex_fantasy_query",
+      "input": {
+        "message": "Can you analyze the trade value of Travis Kelce and compare him to other tight ends in PPR leagues?",
+        "thread_id": "test-thread-gatekeeper-004"
+      },
+      "expected": {
+        "has_response": true,
+        "has_action": true,
+        "has_relevant": true
+      }
+    }
+  ],
+  "planner": [
+    {
+      "name": "player_comparison",
+      "input": {
+        "message": "Compare the performance of Patrick Mahomes and Josh Allen this season",
+        "thread_id": "test-thread-planner-001"
+      },
+      "expected": {
+        "has_subtasks": true
+      }
+    },
+    {
+      "name": "waiver_wire_advice",
+      "input": {
+        "message": "Who should I pick up from the waiver wire for week 10?",
+        "thread_id": "test-thread-planner-002"
+      },
+      "expected": {
+        "has_subtasks": true
+      }
+    },
+    {
+      "name": "trade_analysis",
+      "input": {
+        "message": "Should I trade my Christian McCaffrey for Tyreek Hill and a draft pick?",
+        "thread_id": "test-thread-planner-003"
+      },
+      "expected": {
+        "has_subtasks": true
+      }
+    },
+    {
+      "name": "lineup_optimization",
+      "input": {
+        "message": "Help me set my optimal lineup for this week with my current roster",
+        "thread_id": "test-thread-planner-004"
+      },
+      "expected": {
+        "has_subtasks": true
+      }
+    }
+  ],
+  "executor": [
+    {
+      "name": "simple_execution",
+      "input": {
+        "message": "Get the latest stats for Ja'Marr Chase",
+        "plan_id": "test-plan-001",
+        "subtasks": [
+          "Fetch player stats from Sleeper API",
+          "Format stats for display"
+        ],
+        "thread_id": "test-thread-executor-001"
+      },
+      "expected": {
+        "returns_state": true
+      }
+    },
+    {
+      "name": "multi_step_execution",
+      "input": {
+        "message": "Compare running backs and provide top 5 recommendations",
+        "plan_id": "test-plan-002",
+        "subtasks": [
+          "Fetch all RB stats",
+          "Calculate rankings based on PPR",
+          "Filter top 5 performers",
+          "Format recommendations"
+        ],
+        "thread_id": "test-thread-executor-002"
+      },
+      "expected": {
+        "returns_state": true
+      }
+    }
+  ],
+  "summarize": [
+    {
+      "name": "placeholder_test",
+      "input": {},
+      "expected": {
+        "has_context": true,
+        "context_contains": "future use"
+      }
+    }
+  ]
+}
+
